@@ -57,10 +57,8 @@ class _HomeState extends State<Home>{
               }
               print(_manager.root.point);
               },
-            child:Container(
-              child: Expanded(
-                child:GameWidget(game: MyGame()),
-              ),
+            child:Expanded(
+              child:GameWidget(game: MyGame()),
             ),
           ),
         ),
@@ -75,18 +73,21 @@ class _HomeState extends State<Home>{
 
               children: [
                 FloatingActionButton(
+                  heroTag: 'home_FAB1',
                   child: Icon(Icons.shopping_cart),
                   onPressed: (){
                     Navigator.pushNamed(context, '/market');
                   },
                 ),
                 FloatingActionButton(
+                  heroTag: 'home_FAB2',
                   child: Icon(Icons.inventory),
                   onPressed: (){
                     Navigator.pushNamed(context, '/inventory');
                   },
                 ),
                 FloatingActionButton(
+                  heroTag: 'home_FAB3',
                   child: Icon(Icons.group),
                   onPressed: (){
                     Navigator.pushNamed(context, '/town');

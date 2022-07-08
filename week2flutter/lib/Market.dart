@@ -131,6 +131,7 @@ class _Market extends State<Market>{
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
+              heroTag: 'market_FAB1',
               // isExtended: true,
               child: Icon(Icons.arrow_back),
               backgroundColor: Colors.lime,
@@ -142,6 +143,7 @@ class _Market extends State<Market>{
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
+              heroTag: 'market_FAB2',
               // isExtended: true,
               child: Icon(Icons.home),
               backgroundColor: Colors.lime,

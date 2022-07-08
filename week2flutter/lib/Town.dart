@@ -104,6 +104,7 @@ class _Town extends State<Town>{
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
+              heroTag: 'town_FAB1',
               // isExtended: true,
               child: Icon(Icons.arrow_back),
               backgroundColor: Colors.lime,
@@ -115,6 +116,7 @@ class _Town extends State<Town>{
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
+              heroTag: 'town_FAB2',
               // isExtended: true,
               child: Icon(Icons.home),
               backgroundColor: Colors.lime,

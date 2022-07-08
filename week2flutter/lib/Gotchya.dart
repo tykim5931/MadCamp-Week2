@@ -85,7 +85,7 @@ class _Gotchya extends State<Gotchya>{
           Visibility(
             visible: _visibility,
             child: Container(
-                height: 20,
+                height: 40,
                 alignment: Alignment.center,
                 color: Colors.yellow,
                 child: TextField(

@@ -70,36 +70,37 @@ class _Inventory extends State<Inventory>{
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
-
-                          children: [
-                            Visibility(
-                              child: ElevatedButton(
-                                  onPressed: (){
-                                    Navigator.pushNamed(
-                                        context,
-                                        '/sellDelete',
-                                        arguments: ScreenArgument(
-                                            idx,
-                                            false
-                                        ));
-                                    },
-                                  child: Text("방출")
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: (){
+                                      Navigator.pushNamed(
+                                          context,
+                                          '/sellDelete',
+                                          arguments: ScreenArgument(
+                                              idx,
+                                              false
+                                          ));
+                                      },
+                                    child: Text("방출")
+                                ),
                               ),
-                            ),
-                            ElevatedButton(
-                                onPressed: (){
-                                  Navigator.pushNamed(
-                                      context,
-                                      '/sellDelete',
-                                      arguments: ScreenArgument(
-                                          idx,
-                                          true
-                                      ));
-                                },
-                                child: Text("경매")
-                            ),
-                          ],
-                        ),
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: (){
+                                      Navigator.pushNamed(
+                                          context,
+                                          '/sellDelete',
+                                          arguments: ScreenArgument(
+                                              idx,
+                                              true
+                                          ));
+                                    },
+                                    child: Text("경매")
+                                ),
+                              ),
+                            ],
+                          ),
                         Image.asset(
                             malangList.elementAt(idx).imgsource
                         ),
@@ -140,6 +141,7 @@ class _Inventory extends State<Inventory>{
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
+              heroTag: 'inv_FAB1',
               // isExtended: true,
               child: Icon(Icons.arrow_back),
               backgroundColor: Colors.lime,
@@ -151,6 +153,7 @@ class _Inventory extends State<Inventory>{
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FloatingActionButton(
+              heroTag: 'inv_FAB2',
               // isExtended: true,
               child: Icon(Icons.home),
               backgroundColor: Colors.lime,
