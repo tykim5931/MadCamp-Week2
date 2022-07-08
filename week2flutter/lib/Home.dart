@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:week2flutter/Global/MyGame.dart';
 import 'package:week2flutter/Global/UserManager.dart';
 import 'package:week2flutter/MyDrawer.dart';
+import 'dart:math';
+
+import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
+import 'package:flame/sprite.dart';
 
 import 'data/User.dart';
 
@@ -29,7 +36,7 @@ class _HomeState extends State<Home>{
         Column(
           children: [
             Expanded(
-              child:Text("슬라임들 노는중 ..."), // Game widget
+              child:GameWidget(game: MyGame()), // Game widget
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),

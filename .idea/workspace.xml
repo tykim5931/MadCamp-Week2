@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eec41d0b-f785-4a6b-8721-f99b92fd9afe" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Week2/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Week2/app/src/main/java/com/example/week2/retrofit/IRetrofit.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Week2/app/src/main/java/com/example/week2/retrofit/LoginResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Week2/app/src/main/java/com/example/week2/retrofit/RetrofitClient.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Week2/app/src/main/java/com/example/week2/retrofit/RetrofitManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Week2/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Week2/app/build.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="eec41d0b-f785-4a6b-8721-f99b92fd9afe" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +25,7 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/week2flutter" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
