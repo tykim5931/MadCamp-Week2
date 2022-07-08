@@ -5,8 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flame/sprite.dart';
 
+import '../data/Malang.dart';
 
+List<Malang> malangList = [
+  Malang(type: 0, name: "플레인", imgsource: "assets/plain.gif"),
+  Malang(type: 1, name: "물방울", imgsource: "assets/waterdrop.gif"),
+  Malang(type: 2, name: "오로라", imgsource: "assets/ourora.gif"),
+  Malang(type: 3, name: "바이러스", imgsource: "assets/vvirus.gif"),
+  Malang(type: 4, name: "강아지", imgsource: "assets/puppy.gif"),
+  Malang(type: 5, name: "재빠른 병아리", imgsource: "assets/fastchick.gif"),
+  Malang(type: 6, name: "유니콘", imgsource: "assets/unicorn.gif"),
+  Malang(type: 7, name: "플라워", imgsource: "assets/flower.gif"),
+  Malang(type: 8, name: "잠탱이", imgsource: "assets/sleepy.gif"),
+];
 
+List<double> speedList = [1, 0.5, 1, 1, 3, 1, 1, 1, 1];
 
 class Slime{
   int? type;
@@ -15,12 +28,11 @@ class Slime{
   int dir = 0; // path[dir]
   int dist = 50; // dist만큼의 거리를 이동할 예정
 
-  Slime(int type, double speed){
+  Slime(int type){
     this.type = type;
-    this.speed = speed;
+    this.speed = speedList[type];
   }
 }
-
 
 
 class MyGame extends FlameGame{
@@ -40,23 +52,21 @@ class MyGame extends FlameGame{
 
     //print('load game assets');
     // spriteSheet for image 0
-    spList.add(SpriteSheet(image: await images.load('slime_0.png'),srcSize: Vector2(128, 145)));
-    rAList.add(spList[0].createAnimation(row:0, stepTime:0.5, to: 2));
-    lAList.add(spList[0].createAnimation(row:1, stepTime:0.5, to: 2));
-
-    spList.add(SpriteSheet(image: await images.load('slime_1.png'),srcSize: Vector2(128, 140)));
-    rAList.add(spList[1].createAnimation(row:0, stepTime:0.5, to: 2));
-    lAList.add(spList[1].createAnimation(row:1, stepTime:0.5, to: 2));
+    for(int i=0; i<9; i++){
+      spList.add(SpriteSheet(image: await images.load('slime_${i}.png'),srcSize: Vector2(128, 145)));
+      rAList.add(spList[i].createAnimation(row:0, stepTime:0.5, to: 2));
+      lAList.add(spList[i].createAnimation(row:1, stepTime:0.5, to: 2));
+    }
 
     // spList[0] -> 기존 SpriteSheet
     //rightAnimation = spriteSheet.createAnimation(row:0, stepTime:0.3, to: 2);
     //leftAnimation = spriteSheet.createAnimation(row:1, stepTime:0.3, to: 2);
     /////////////////////////////////////
 
+    for(Malang item in malangList){
+      slimeList.add(Slime(item.getType())); // Slime(종류, 속도)
+    }
 
-    slimeList.add(Slime(1, 1)); // Slime(종류, 속도)
-    slimeList.add(Slime(1, 1));
-    slimeList.add(Slime(1, 0.5));
     for(int i=0; i < slimeList.length; i++){
       slimeList[i].slime = SpriteAnimationComponent()
         ..animation = rAList[slimeList[i].type ?? 0]
@@ -65,9 +75,6 @@ class MyGame extends FlameGame{
         ..size = Vector2.all(100);
       add(slimeList[i].slime);
     }
-
-
-
 
     //slime = SpriteAnimationComponent()
     //  ..animation = rightAnimation

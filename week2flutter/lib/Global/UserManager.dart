@@ -12,4 +12,10 @@ class UserManager with ChangeNotifier{
     notifyListeners();
     print(user.id);
   }
+
+  set root(User user){
+    _rootUser = user;
+    notifyListeners();
+    print(user.id);
+  }
 }

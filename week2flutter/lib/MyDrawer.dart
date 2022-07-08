@@ -7,21 +7,23 @@ class MyDrawer extends StatelessWidget{
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/spaki.gif'),
-                // backgroundColor: Colors.white,
-              ),
-              accountName: Text('Account'),
-              accountEmail: Text('Email@gmail.com'),
-              onDetailsPressed:(){
-                print('arrow is clicked');
-              },
-              decoration: BoxDecoration(
-                color: Colors.red[200],
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0)
+            Container(
+              child: UserAccountsDrawerHeader(
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: AssetImage('assets/spaki.gif'),
+                  // backgroundColor: Colors.white,
+                ),
+                accountName: Text('Account'),
+                accountEmail: Text('Email@gmail.com'),
+                onDetailsPressed:(){
+                  print('arrow is clicked');
+                },
+                decoration: BoxDecoration(
+                  color: Colors.red[200],
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0)
+                  ),
                 ),
               ),
             ),

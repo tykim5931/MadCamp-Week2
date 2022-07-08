@@ -7,16 +7,15 @@ import 'data/User.dart';
 
 
 List<Malang> malangList = [
-  Malang(name: "플레인", imgsource: "assets/plain.gif"),
-  Malang(name: "물방울", imgsource: "assets/waterdrop.gif"),
-  Malang(name: "오로라", imgsource: "assets/ourora.gif"),
-  Malang(name: "바이러스", imgsource: "assets/vvirus.gif"),
-  Malang(name: "강아지", imgsource: "assets/puppy.gif"),
-  Malang(name: "재빠른 병아리", imgsource: "assets/fastchick.gif"),
-  Malang(name: "사과", imgsource: "assets/apple.gif"),
-  Malang(name: "유니콘", imgsource: "assets/unicorn.gif"),
-  Malang(name: "플라워", imgsource: "assets/flower.gif"),
-  Malang(name: "잠탱이", imgsource: "assets/sleepy.gif"),
+  Malang(type: 0, name: "플레인", imgsource: "assets/plain.gif"),
+  Malang(type: 1, name: "물방울", imgsource: "assets/waterdrop.gif"),
+  Malang(type: 2, name: "오로라", imgsource: "assets/ourora.gif"),
+  Malang(type: 3, name: "바이러스", imgsource: "assets/vvirus.gif"),
+  Malang(type: 4, name: "강아지", imgsource: "assets/puppy.gif"),
+  Malang(type: 5, name: "재빠른 병아리", imgsource: "assets/fastchick.gif"),
+  Malang(type: 6, name: "유니콘", imgsource: "assets/unicorn.gif"),
+  Malang(type: 7, name: "플라워", imgsource: "assets/flower.gif"),
+  Malang(type: 8, name: "잠탱이", imgsource: "assets/sleepy.gif"),
 ];
 
 class Inventory extends StatefulWidget{
@@ -49,7 +48,7 @@ class _Inventory extends State<Inventory>{
             children: [
               ElevatedButton(
                   onPressed: (){
-                    // 갓챠 동작
+                    Navigator.pushNamed(context, '/gotchya');
                   },
                   child: Text("갓챠!!")
               ),
@@ -68,6 +67,39 @@ class _Inventory extends State<Inventory>{
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+
+                          children: [
+                            Visibility(
+                              child: ElevatedButton(
+                                  onPressed: (){
+                                    Navigator.pushNamed(
+                                        context,
+                                        '/sellDelete',
+                                        arguments: ScreenArgument(
+                                            idx,
+                                            false
+                                        ));
+                                    },
+                                  child: Text("방출")
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: (){
+                                  Navigator.pushNamed(
+                                      context,
+                                      '/sellDelete',
+                                      arguments: ScreenArgument(
+                                          idx,
+                                          true
+                                      ));
+                                },
+                                child: Text("경매")
+                            ),
+                          ],
+                        ),
                         Image.asset(
                             malangList.elementAt(idx).imgsource
                         ),
@@ -133,4 +165,10 @@ class _Inventory extends State<Inventory>{
       ),
     );
   }
+}
+
+class ScreenArgument{
+  final int malangidx;
+  final bool sell;
+  ScreenArgument(this.malangidx, this.sell);
 }
