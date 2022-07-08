@@ -1,18 +1,22 @@
-// 1. 서버 사용을 위해서 http 모듈을 http 변수에 담는다. (모듈과 변수의 이름은 달라도 된다.) 
-// node.js 는 requre 후에 해당 모듈을 http 변수에 담은 후 하나의 독립적인 객체로 사용.
+const http = require('http')
+const mysql = require('mysql')
 
-var http = require('http'); 
-
-// 2. http 모듈로 서버를 생성한다.
-//    아래와 같이 작성하면 서버를 생성한 후, 사용자로 부터 http 요청이 들어오면 function 블럭내부의 코드를 실행해서 응답한다.
-var server = http.createServer(function(request,response){ 
-
-    response.writeHead(200,{'Content-Type':'text/html'});
-    response.end('Hello node.js!!');
-
+// DB connection
+var conn = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'nodejsdb'
 });
 
-// 3. listen 함수로 8080 포트를 가진 서버를 실행한다. 서버가 실행된 것을 콘솔창에서 확인하기 위해 'Server is running...' 로그를 출력한다
-server.listen(8080, function(){     // http 8080 port server. can see console 
-    console.log('Server is running...');
+// server 생성 및 DB select
+http.createServer( (req, res) => {
+  conn.query('select * from users ', (err, results, fields) =>{
+    // users table의 모든 데이터를 조회하여 console에 출력하는 코드.
+    if(err) throw err;
+    console.log(results);
+    res.end();
+  });
+}).listen(8001, () => {
+  console.log('8001 : server start!');
 });
