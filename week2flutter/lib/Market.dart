@@ -33,94 +33,96 @@ class _Market extends State<Market>{
         title: const Text('슬라임 마켓'),
       ),
       drawer: MyDrawer(),
-      body: Container(
-          color: Colors.white,
-          child: Expanded(
-              child: ListView.builder(
-                  itemCount: malangList.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int idx){
-                    // item의 반복문 항목 형성
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+            child: ListView.builder(
+                itemCount: malangList.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int idx){
+                  // item의 반복문 항목 형성
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
 
-                      children: [
-                        Expanded(flex: 1,child: Padding(
+                    children: [
+                      Expanded(flex: 1,child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          malangList.elementAt(idx).imgsource,
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child:Container(
+                          alignment: Alignment.centerLeft,
+                          color: Colors.blue,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Name: ${malangList.elementAt(idx).name}",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Age: ${malangList.elementAt(idx).age} D",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Price: ${malangList.elementAt(idx).price} P",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            malangList.elementAt(idx).imgsource,
-                            width: 100,
-                            height: 100,
-                          ),
-                         ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child:Container(
-                            alignment: Alignment.centerLeft,
-                            color: Colors.blue,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Name: ${malangList.elementAt(idx).name}",
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Age: ${malangList.elementAt(idx).age} D",
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Price: ${malangList.elementAt(idx).price} P",
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          child: ElevatedButton(
+                            onPressed: (){
+                              // 이 아이템의 소유주 ID를 변경시켜 줌.
+                              // 아이템의 소유주 변경 요청을 보내야 함.
+                              // 소유주 변경은 서버에서 일어남.
+                              // Toast로 구매완료, 남은 포인트 알려주고
+                              // refresh. 서버에서 다시 읽어오기
+                            },
+                            child: const Text(
+                              "입양하기",
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: ElevatedButton(
-                                onPressed: (){
-                                  // 이 아이템의 소유주 ID를 변경시켜 줌.
-                                  // 아이템의 소유주 변경 요청을 보내야 함.
-                                  // 소유주 변경은 서버에서 일어남.
-                                  // Toast로 구매완료, 남은 포인트 알려주고
-                                  // refresh. 서버에서 다시 읽어오기
-                                },
-                                child: const Text(
-                                  "입양하기",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                  ),
-                                ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                  ),
-          )
+                      ),
+                    ],
+                  );
+                }
+            ),
+          )],
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

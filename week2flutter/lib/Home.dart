@@ -49,18 +49,14 @@ class _HomeState extends State<Home>{
         ),
       drawer: MyDrawer(),
       body: Container(
-        child: Container(
-          child: GestureDetector(
-            onTap: (){ // user의 슬라임 리스트 가지고 포인트 계산
-              if(_manager.selected.id == _manager.root.id) {
-                _manager.root.addPoint(1);
-              }
-              print(_manager.root.point);
-              },
-            child:Expanded(
-              child:GameWidget(game: MyGame()),
-            ),
-          ),
+        child: GestureDetector(
+          onTap: (){ // user의 슬라임 리스트 가지고 포인트 계산
+            if(_manager.selected.id == _manager.root.id) {
+              _manager.root.addPoint(1);
+            }
+            print(_manager.root.point);
+            },
+            child:GameWidget(game: MyGame()),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

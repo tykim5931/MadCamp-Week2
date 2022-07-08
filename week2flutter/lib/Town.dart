@@ -27,9 +27,10 @@ class _Town extends State<Town>{
         title: const Text('이웃들'),
       ),
       drawer: MyDrawer(),
-      body: Container(
-          color: Colors.white,
-          child: Expanded(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [ Expanded(
             child: ListView.builder(
                 itemCount: userList.length,
                 shrinkWrap: true,
@@ -94,7 +95,7 @@ class _Town extends State<Town>{
                   );
                 }
             ),
-          )
+          )],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Row(
