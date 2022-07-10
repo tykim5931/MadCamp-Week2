@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 String _url = "http://192.249.18.162:80";
 
+
+// #### USER ######
 Future<User> reqireUser(String id) async { // 아이디로 유저 요청
   http.Response _res =
   await http.post(
@@ -56,11 +58,11 @@ Future<List<User>> reqireUserList() async { // 유저 리스트 요청
   );
   // print(_res.body);
   var parsed = json.decode(_res.body).cast<Map<String, dynamic>>();
-  print(parsed.map<User>((json) => User.fromJson(json)).toList()[0]);
   return parsed.map<User>((json) => User.fromJson(json)).toList();  //List<User>
 }
 
 
+//##### SLIME #######
 
 Future<List<Malang>> getSlimes(String id) async { // 유저의 슬라임 요청
   http.Response _res =
@@ -116,12 +118,22 @@ Future<List<Malang>> sortedSlimes(String sortby, String asc) async { // 정렬�
   http.Response _res =
   await http.post(
     Uri.parse("$_url/sortslime"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: {"sortby" : sortby,
-            "asc" : asc }
+      headers: {
+        "Content-Type": "application/json",
+      },
+    body: json.encode({"sortby" : sortby,"asc" : asc })
   );
   final parsed = json.decode(_res.body).cast<Map<String, dynamic>>();
   return parsed.map<Malang>((json) => Malang.fromJson(json)).toList();  //List<Malang>
+}
+
+void deleteSlime(int id) async { // 슬라임 삭제 요청
+  http.Response _res =
+  await http.post(
+      Uri.parse("$_url/deleteslime"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: json.encode({"id" : id})
+  );
 }

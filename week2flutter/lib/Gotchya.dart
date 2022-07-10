@@ -6,6 +6,8 @@ import 'Global/UserManager.dart';
 import 'MyDrawer.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
+import 'server.dart' as serverUtils;
+
 
 Map<int, List<String>> slimeType =
 { 0: ["플레인", "assets/plain.gif"],
@@ -44,22 +46,28 @@ class _Gotchya extends State<Gotchya>{
   @override
   Widget build(BuildContext context) {
     UserManager _manager = Provider.of<UserManager>(context, listen: false);
+
+    // 랜덤한 말랑이 타입뽑기.
+    var malangtype = Random().nextInt(9);
+
     var myController = TextEditingController();
-    var randomMalang = malangList[Random().nextInt(9)];
     var gotchyaPrice = 100; // dia
     String imgsource = "";
     String info = "";
     var _visibility = true;
 
-    if (_manager.root.point < gotchyaPrice){  // 돈 모자람
-      info = "안타깝네요! ${gotchyaPrice-_manager.root.point}P 더 모아오세요";
+    // TODO 임시로 dia = point
+    _manager.root.dia = _manager.root.point;
+
+    if (_manager.root.dia < gotchyaPrice){  // 돈 모자람
+      info = "안타깝네요! ${gotchyaPrice-_manager.root.dia} \u{1F48E} 더 모아오세요"; //gem stone
       imgsource = "assets/poor.png";
       _visibility = false;
     }
     else{ // 갓챠 실행함
-      _manager.root.point -= gotchyaPrice;
-      info = "Lev: ${randomMalang.type.toString()}, Age: ${randomMalang.createdtime.toString()}";
-      imgsource = slimeType[randomMalang.type]![1];
+      _manager.root.dia -= gotchyaPrice;
+      info = "Lev: ${(malangtype ~/ 3).toString()}, Birth: ${DateTime.now().toString()}";
+      imgsource = slimeType[malangtype]![1];
     }
 
     return Scaffold(
@@ -86,7 +94,7 @@ class _Gotchya extends State<Gotchya>{
             color: Colors.lightGreenAccent,
             alignment: Alignment.center,
             child: Text(
-              "남은 포인트: ${_manager.root.point}",
+              "남은 \u{1F48E}: ${_manager.root.dia}",
               style: const TextStyle(
                 fontSize: 20,
               ),
@@ -119,8 +127,15 @@ class _Gotchya extends State<Gotchya>{
                 visible: _visibility,
                 child: ElevatedButton(
                     onPressed: (){
-                      randomMalang.nickname = myController.text;
-                      // 새로 생성된 말랑이 서버에 요청해서 DB에 적기
+                      Malang newmalang = Malang(
+                        ownerid: _manager.root.id,
+                        type: malangtype,
+                        nickname: "익명의 슬라임"
+                      );
+                      if(myController.text.isNotEmpty)
+                        newmalang.nickname = myController.text;
+                      serverUtils.addSlime(newmalang); // 새로 생성된 말랑이 서버에 요청해서 DB에 적기
+
                       Navigator.pushNamed(context, '/inventory');
                     },
                     child: Text("OK!")

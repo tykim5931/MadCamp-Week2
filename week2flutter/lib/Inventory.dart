@@ -65,15 +65,95 @@ class _Inventory extends State<Inventory>{
                   },
                   child: Text("갓챠!!")
               ),
+
               FutureBuilder<List<Malang>>(
                 future: serverUtils.getSlimes(_manager.root.id),
                 builder: (context,snapshot) {
                   if (snapshot.hasData) {
-                    malangList = snapshot.data!;
+                      malangList = snapshot.data!;
                     return SizedBox(
                       height: 500,
                         child: Column(
-                      children: [bodywidget],
+                      children: [
+                        Expanded(
+                            child: GridView.builder(
+                                itemCount: malangList.length,
+                                shrinkWrap: true,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 1/2, // 가로/세로 비율
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                ),
+                                itemBuilder: (BuildContext context, int idx){
+                                  // item의 반복문 항목 형성
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                onPressed: (){
+                                                  Navigator.pushNamed(
+                                                      context,
+                                                      '/sellDelete',
+                                                      arguments: ScreenArgument(
+                                                          malangList[idx],
+                                                          false
+                                                      ));
+                                                },
+                                                child: Text("방출")
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                onPressed: (){
+                                                  Navigator.pushNamed(
+                                                      context,
+                                                      '/sellDelete',
+                                                      arguments: ScreenArgument(
+                                                          malangList[idx],
+                                                          true
+                                                      ));
+                                                },
+                                                child: Text("경매")
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Image.asset(
+                                          slimeType[malangList.elementAt(idx).type]![1]
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        alignment: Alignment.center,
+                                        color: Colors.yellow,
+                                        child: Text(
+                                          '$idx',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        color: Colors.lightGreenAccent,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          malangList.elementAt(idx).nickname,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                            ))
+                      ],
                     ));
                   } else if (snapshot.hasData == false) {
                     return CircularProgressIndicator();
@@ -111,7 +191,8 @@ class _Inventory extends State<Inventory>{
               heroTag: 'inv_FAB2',
               // isExtended: true,
               child: Icon(Icons.home),
-              backgroundColor: Colors.lime,
+              backgroundColor: Colors
+                  .lime,
               onPressed: (){
                 var _manager = Provider.of<UserManager>(context, listen: false); // 전역변수
                 _manager.selected = _manager.root;
@@ -126,86 +207,7 @@ class _Inventory extends State<Inventory>{
 }
 
 class ScreenArgument{
-  final int malangidx;
+  final Malang malang;
   final bool sell;
-  ScreenArgument(this.malangidx, this.sell);
+  ScreenArgument(this.malang, this.sell);
 }
-
-
-Expanded bodywidget = Expanded(child: GridView.builder(
-    itemCount: malangList.length,
-    shrinkWrap: true,
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 3,
-      childAspectRatio: 1/2, // 가로/세로 비율
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-    ),
-    itemBuilder: (BuildContext context, int idx){
-      // item의 반복문 항목 형성
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(
-                          context,
-                          '/sellDelete',
-                          arguments: ScreenArgument(
-                              idx,
-                              false
-                          ));
-                    },
-                    child: Text("방출")
-                ),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(
-                          context,
-                          '/sellDelete',
-                          arguments: ScreenArgument(
-                              idx,
-                              true
-                          ));
-                    },
-                    child: Text("경매")
-                ),
-              ),
-            ],
-          ),
-          Image.asset(
-              slimeType[malangList.elementAt(idx).type]![1]
-          ),
-          Container(
-            height: 20,
-            alignment: Alignment.center,
-            color: Colors.yellow,
-            child: Text(
-              '$idx',
-              style: const TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ),
-          Container(
-            color: Colors.lightGreenAccent,
-            alignment: Alignment.center,
-            child: Text(
-              malangList.elementAt(idx).nickname,
-              style: const TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-));

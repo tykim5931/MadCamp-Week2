@@ -8,6 +8,7 @@ import 'Global/UserManager.dart';
 import 'MyDrawer.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
+import 'server.dart' as serverUtils;
 
 
 
@@ -48,13 +49,11 @@ class _SellDelete extends State<SellDelete>{
   Widget build(BuildContext context) {
     UserManager _manager = Provider.of<UserManager>(context, listen: false);
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
-    var malangidx = args.malangidx;
+    Malang _malang = args.malang;
     var sell = args.sell;
-
-    var _malang = malangList[malangidx];
     var myController = TextEditingController();
 
-    String info = "Lev: ${_malang.type.toString()}, Age: ${_malang.createdtime.toString()}";
+    String info = "Lev: ${_malang.type.toString()}, Birth: ${_malang.createdtime.toString()}";
     var _visibility = true;
     String btnText = "";
 
@@ -130,11 +129,10 @@ class _SellDelete extends State<SellDelete>{
                             gravity: ToastGravity.TOP_RIGHT
                           );
                         }
-                        // save _malang instance to market table (server)
-                        // remove from user (server) (malangidx)
+                        serverUtils.updateSlime(_malang);
                       }
                       else{ // 방출
-                        // remove from user (server) (malangidx)
+                        serverUtils.deleteSlime(_malang.id);
                       }
                       Navigator.pushNamed(context, '/inventory');
                     },
