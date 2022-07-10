@@ -1,23 +1,27 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flame/sprite.dart';
+import 'package:provider/provider.dart';
 
 import '../data/Malang.dart';
+import 'UserManager.dart';
 
-List<Malang> malangList = [
-  Malang(type: 0, name: "플레인", imgsource: "assets/plain.gif"),
-  Malang(type: 1, name: "물방울", imgsource: "assets/waterdrop.gif"),
-  Malang(type: 2, name: "오로라", imgsource: "assets/ourora.gif"),
-  Malang(type: 3, name: "바이러스", imgsource: "assets/vvirus.gif"),
-  Malang(type: 4, name: "강아지", imgsource: "assets/puppy.gif"),
-  Malang(type: 5, name: "재빠른 병아리", imgsource: "assets/fastchick.gif"),
-  Malang(type: 6, name: "유니콘", imgsource: "assets/unicorn.gif"),
-  Malang(type: 7, name: "플라워", imgsource: "assets/flower.gif"),
-  Malang(type: 8, name: "잠탱이", imgsource: "assets/sleepy.gif"),
-];
+
+Map<int, List<String>> slimeType =
+{ 0: ["플레인", "assets/plain.gif"],
+  1: ["물방울","assets/waterdrop.gif"],
+  2: ["오로라","assets/ourora.gif"],
+  3: ["바이러스","assets/vvirus.gif"],
+  4: ["강아지","assets/puppy.gif"],
+  5: ["재빠른병아리","assets/fastchick.gif"],
+  6: ["유니콘","assets/unicorn.gif"],
+  7: ["플라워","assets/flower.gif"],
+  8: ["잠탱이","assets/sleepy.gif"]
+};
 
 List<double> speedList = [1, 0.5, 1, 1, 3, 1, 1, 1, 1];
 
@@ -45,10 +49,22 @@ class MyGame extends FlameGame{
   var path = [[1, 0], [0, 1], [-1, 0], [0, -1]]; // 방향
   //SpriteComponent slime = SpriteComponent();
   SpriteAnimationComponent slime = SpriteAnimationComponent();
+  var pointText = TextComponent();
+  BuildContext context;
+  List<Malang> malangList;
+
+  MyGame({required this.context, required this.malangList});
 
   @override
   Future<void> onLoad() async{
     await super.onLoad();
+    UserManager _manager = Provider.of<UserManager>(context, listen: false);
+    pointText = TextComponent(text: "Point: ${_manager.root.point.toString()}", textRenderer: TextPaint(style: TextStyle(color: BasicPalette.white.color)))
+      ..anchor = Anchor.topLeft
+      ..x = 100.0
+      ..y = 30.0;
+
+    add(pointText);
 
     //print('load game assets');
     // spriteSheet for image 0
@@ -72,7 +88,7 @@ class MyGame extends FlameGame{
         ..animation = rAList[slimeList[i].type ?? 0]
         ..x = Random().nextDouble()*300
         ..y = Random().nextDouble()*500
-        ..size = Vector2.all(100);
+        ..size = Vector2.all(50);
       add(slimeList[i].slime);
     }
 
@@ -88,6 +104,9 @@ class MyGame extends FlameGame{
   @override
   void update(double dt){
     super.update(dt);
+
+    UserManager _manager = Provider.of<UserManager>(context, listen: false);
+    pointText.text = "Point: ${_manager.root.point.toString()}";
 
     for(int i=0; i < slimeList.length; i++){
       SpriteAnimationComponent slime = slimeList[i].slime;

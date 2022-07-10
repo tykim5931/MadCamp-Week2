@@ -9,17 +9,31 @@ import 'MyDrawer.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
 
+
+
+Map<int, List<String>> slimeType =
+{ 0: ["플레인", "assets/plain.gif"],
+  1: ["물방울","assets/waterdrop.gif"],
+  2: ["오로라","assets/ourora.gif"],
+  3: ["바이러스","assets/vvirus.gif"],
+  4: ["강아지","assets/puppy.gif"],
+  5: ["재빠른병아리","assets/fastchick.gif"],
+  6: ["유니콘","assets/unicorn.gif"],
+  7: ["플라워","assets/flower.gif"],
+  8: ["잠탱이","assets/sleepy.gif"]
+};
 List<Malang> malangList = [
-  Malang(type: 0, name: "플레인", imgsource: "assets/plain.gif"),
-  Malang(type: 1, name: "물방울", imgsource: "assets/waterdrop.gif"),
-  Malang(type: 2, name: "오로라", imgsource: "assets/ourora.gif"),
-  Malang(type: 3, name: "바이러스", imgsource: "assets/vvirus.gif"),
-  Malang(type: 4, name: "강아지", imgsource: "assets/puppy.gif"),
-  Malang(type: 5, name: "재빠른 병아리", imgsource: "assets/fastchick.gif"),
-  Malang(type: 6, name: "유니콘", imgsource: "assets/unicorn.gif"),
-  Malang(type: 7, name: "플라워", imgsource: "assets/flower.gif"),
-  Malang(type: 8, name: "잠탱이", imgsource: "assets/sleepy.gif"),
+  Malang(ownerid: "1", type: 0, nickname: "플레인"),
+  Malang(ownerid: "1", type: 1, nickname: "물방울"),
+  Malang(ownerid: "1", type: 2, nickname: "오로라"),
+  Malang(ownerid: "1", type: 3, nickname: "바이러스"),
+  Malang(ownerid: "1", type: 4, nickname: "강아지"),
+  Malang(ownerid: "1", type: 5, nickname: "재빠른 병아리"),
+  Malang(ownerid: "1", type: 6, nickname: "유니콘"),
+  Malang(ownerid: "1", type: 7, nickname: "플라워"),
+  Malang(ownerid: "1", type: 8, nickname: "잠탱이"),
 ];
+
 
 
 class SellDelete extends StatefulWidget{
@@ -40,7 +54,7 @@ class _SellDelete extends State<SellDelete>{
     var _malang = malangList[malangidx];
     var myController = TextEditingController();
 
-    String info = "Lev: ${_malang.type.toString()}, Age: ${_malang.age.toString()}";
+    String info = "Lev: ${_malang.type.toString()}, Age: ${_malang.createdtime.toString()}";
     var _visibility = true;
     String btnText = "";
 
@@ -68,7 +82,7 @@ class _SellDelete extends State<SellDelete>{
               ),
             ),
             Image.asset(
-              _malang.imgsource,
+              slimeType[_malang.type]![1],
             ),
             Container(
               color: Colors.lightGreenAccent,
@@ -115,7 +129,6 @@ class _SellDelete extends State<SellDelete>{
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP_RIGHT
                           );
-                          return;
                         }
                         // save _malang instance to market table (server)
                         // remove from user (server) (malangidx)

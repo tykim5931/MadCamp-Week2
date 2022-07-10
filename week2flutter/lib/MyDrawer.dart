@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+
 
 class MyDrawer extends StatelessWidget{
   @override
@@ -33,6 +35,15 @@ class MyDrawer extends StatelessWidget{
               title: Text('Settings'),
               onTap:(){
                 print('Setting is clicked');
+              },
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              leading: Icon(Icons.signal_wifi_connected_no_internet_4,
+                  color: Colors.grey[850]),
+              title: Text('Settings'),
+              onTap:(){
+                Navigator.pushNamed(context, '/login');
               },
               trailing: Icon(Icons.add),
             ),

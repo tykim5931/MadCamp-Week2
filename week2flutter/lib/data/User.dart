@@ -1,18 +1,42 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class User{
-  late String id;
-  late String email;
-  late String pw;
+  String id;
+  String nickname;
+  // Null blobimg = null; // display
   int point = 0;
-  int gotchya = 1;
+  int level = 1;
+  int dia = 0;
+  int currentdia = 0;
 
-  User({required this.id, required this.email, required this.pw});
 
-  void addPoint(int add){
-    this.point += add;
+  User({required this.id,
+    required this.nickname,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    User user = User(
+      id: json['id'] as String,
+      nickname: json['nickname'] as String,
+    );
+    user.level = json['level'] as int;
+    user.dia = json['dia'] as int;
+    user.currentdia = json['currentdia'] as int;
+    user.point = json['point'] as int;
+    return user;
   }
-  void addTry(){
-    this.gotchya += 1;
+  Map<String, dynamic> toJson() =>
+      {
+        'id':id,
+        'nickname':nickname,
+        'level': level,
+        'point':point,
+        'dia':dia,
+        'currentdia':currentdia,
+      };
+
+ void addPoint(int add){
+    this.point += add;
   }
 }

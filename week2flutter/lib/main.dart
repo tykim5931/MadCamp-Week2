@@ -6,8 +6,8 @@ import 'package:week2flutter/Market.dart';
 import 'package:week2flutter/SellDelete.dart';
 import 'package:week2flutter/Town.dart';
 import 'package:week2flutter/Inventory.dart';
-
 import 'Gotchya.dart';
+import 'Login.dart';
 
 
 void main() => runApp(MultiProvider(
@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
         '/town': (context) => Town(),
         '/inventory': (context) => Inventory(),
         '/gotchya': (context) => Gotchya(),
-        '/sellDelete': (context) => SellDelete()
+        '/sellDelete': (context) => SellDelete(),
+        '/login' : (context) => Login(),
       },
     );
   }

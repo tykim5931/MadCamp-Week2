@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../data/User.dart';
 
 class UserManager with ChangeNotifier{
-  User _rootUser = User(id: "짱구", email: "email@email.com", pw:"12345");
-  User _selectedUser = User(id: "짱구", email: "email@email.com", pw:"12345");
+  User _rootUser = User(id: "test1", nickname: "짱구");
+  User _selectedUser = User(id: "test1", nickname: "짱구");
   User get root => _rootUser;
   User get selected => _selectedUser;
 
