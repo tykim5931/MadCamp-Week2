@@ -30,6 +30,13 @@ class _Market extends State<Market>{
     final args = ModalRoute.of(context)!.settings.arguments as GotchyaArgument;
     int currLen = args.malanglength;
 
+    var future0 = serverUtils.getSlimes(_manager.root.id);
+    future0.then((val) {
+      currLen = val.length; // 중간에 다른 유저가 매물을 사면서 내 포인트가 늘어나게 되는 상황 대비!!
+    }).catchError((error) {
+      print('error: $error');
+    });
+
     // update user state
     var future1 = serverUtils.requireUser(_manager.root.id);
     future1.then((val) {
@@ -62,7 +69,7 @@ class _Market extends State<Market>{
                           future = serverUtils.sortedSlimes("type", "desc");
                           setState((){});
                           },
-                        child: Text("레벨높은순")
+                        child: Text("등급높은순")
                     ),
                   ),
                   Container(width: 3),
@@ -74,7 +81,7 @@ class _Market extends State<Market>{
                         future = serverUtils.sortedSlimes("type", "asc");
                         setState((){});
                       },
-                      child: Text("레벨낮은순")
+                      child: Text("등급낮은순")
                   ),
                   ),
                   Container(width: 3),
@@ -179,6 +186,14 @@ class _Market extends State<Market>{
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                     onPressed: (){
+
+                                      var future0 = serverUtils.getSlimes(_manager.root.id);
+                                      future0.then((val) {
+                                        currLen = val.length; // 중간에 다른 유저가 매물을 사면서 내 포인트가 늘어나게 되는 상황 대비!!
+                                      }).catchError((error) {
+                                        print('error: $error');
+                                      });
+                                      
                                       Malang malang = malangList.elementAt(idx);
                                       if(currLen >= USERLEVEL[_manager.root.level]!["inventory"]){
                                         Fluttertoast.showToast(

@@ -35,9 +35,10 @@ class _SellDelete extends State<SellDelete>{
     Malang _malang = args.malang;
     var sell = args.sell;
     var myController = TextEditingController();
+    var table = ['C','B','A','S'];
 
     String descritpion = "정말로 버리시겠습니까?";
-    String info = "Name : ${_malang.nickname.toString()}\nLev  : ${_malang.type.toString()} \nBirth: ${_malang.createdtime.toString().substring(0, 10)}";
+    String info = "Name : ${_malang.nickname.toString()}\n등급  : ${table[_malang.type ~/ 3]} \nBirth: ${_malang.createdtime.toString().substring(0, 10)}";
     var _visibility = true;
     String btnText = "";
 

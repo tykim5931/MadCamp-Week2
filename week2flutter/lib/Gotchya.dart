@@ -76,7 +76,8 @@ class _Gotchya extends State<Gotchya>{
     }
     else{ // 갓챠 실행함
       _manager.root.dia -= gotchyaPrice;
-      info = "Lev: ${(malangtype ~/ 3).toString()}, Birth: ${DateTime.now().toString()}";
+      var table = ['C','B','A','S'];
+      info = "등급: ${table[(malangtype ~/ 3)]}, Birth: ${DateTime.now().toString().substring(0,10)}";
       imgsource = SLIMETYPE[malangtype]!["gifsource"];
     }
     serverUtils.updateUser(_manager.root);  // 갓챠를 했으면 무조건 돈은 사용되는거임.

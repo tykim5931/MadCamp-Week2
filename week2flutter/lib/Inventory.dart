@@ -28,6 +28,7 @@ class _Inventory extends State<Inventory>{
   Widget build(BuildContext context) {
     UserManager _manager = Provider.of<UserManager>(context, listen: false);
     User currUser = _manager.root;
+    var table = ['C','B','A', 'S'];
 
     return Scaffold(
         appBar: AppBar(
@@ -82,7 +83,7 @@ class _Inventory extends State<Inventory>{
                                     height: 20,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Lev ${malangList.elementAt(idx).type ~/ 3}",
+                                      "등급 ${table[malangList.elementAt(idx).type ~/ 3]}",
                                       style: TextStyle(
                                         fontSize: 20,
                                       ),
