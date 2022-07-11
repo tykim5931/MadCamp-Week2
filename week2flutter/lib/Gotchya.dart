@@ -1,38 +1,20 @@
+import 'dart:core';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:week2flutter/Inventory.dart';
+import 'package:week2flutter/data/instances.dart';
 import 'Global/UserManager.dart';
 import 'MyDrawer.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
 import 'server.dart' as serverUtils;
+import 'data/arguments.dart';
 
 
-Map<int, List<String>> slimeType =
-{ 0: ["플레인", "assets/plain.gif"],
-  1: ["물방울","assets/waterdrop.gif"],
-  2: ["오로라","assets/ourora.gif"],
-  3: ["바이러스","assets/vvirus.gif"],
-  4: ["강아지","assets/puppy.gif"],
-  5: ["재빠른병아리","assets/fastchick.gif"],
-  6: ["유니콘","assets/unicorn.gif"],
-  7: ["플라워","assets/flower.gif"],
-  8: ["잠탱이","assets/sleepy.gif"]
-};
 
-List<Malang> malangList = [
-  Malang(ownerid: "1", type: 0, nickname: "플레인"),
-  Malang(ownerid: "1", type: 1, nickname: "물방울"),
-  Malang(ownerid: "1", type: 2, nickname: "오로라"),
-  Malang(ownerid: "1",
-      type: 3, nickname: "바이러스"),
-  Malang(ownerid: "1", type: 4, nickname: "강아지"),
-  Malang(ownerid: "1", type: 5, nickname: "재빠른 병아리"),
-  Malang(ownerid: "1", type: 6, nickname: "유니콘"),
-  Malang(ownerid: "1", type: 7, nickname: "플라워"),
-  Malang(ownerid: "1", type: 8, nickname: "잠탱이"),
-];
+List<Malang> malangList = [];
 
 
 class Gotchya extends StatefulWidget{
@@ -46,9 +28,35 @@ class _Gotchya extends State<Gotchya>{
   @override
   Widget build(BuildContext context) {
     UserManager _manager = Provider.of<UserManager>(context, listen: false);
+    final args = ModalRoute.of(context)!.settings.arguments as GotchyaArgument;
+    int currLen = args.malanglength;
+
+    // update user state
+    var future1 = serverUtils.requireUser(_manager.root.id);
+    future1.then((val) {
+      _manager.root = val[0]; // 중간에 다른 유저가 매물을 사면서 내 포인트가 늘어나게 되는 상황 대비!!
+    }).catchError((error) {
+      print('error: $error');
+    });
 
     // 랜덤한 말랑이 타입뽑기.
-    var malangtype = Random().nextInt(9);
+    var probalist = USERLEVEL[_manager.root.level]!["probalist"]; // proba of malanglevel
+    var totalsum = 0;
+    for (int i in probalist){
+      totalsum = totalsum+i;
+    }
+    int level = 0;
+    var randint = Random().nextInt(totalsum);
+    for (int i =0; i<probalist.length; i++){
+      int prob = probalist[i];
+      randint = randint - prob;
+      if(randint <= 0){
+        level = i;
+        break;
+      }
+    }
+    int malangtype = level*3 + Random().nextInt(3); // 같은 레벨의 말랑이 3개씩!!
+    print(malangtype);
 
     var myController = TextEditingController();
     var gotchyaPrice = 100; // dia
@@ -56,19 +64,28 @@ class _Gotchya extends State<Gotchya>{
     String info = "";
     var _visibility = true;
 
-    // TODO 임시로 dia = point
+    // TODO 임시로 dia = point,
     _manager.root.dia = _manager.root.point;
 
-    if (_manager.root.dia < gotchyaPrice){  // 돈 모자람
+
+    if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){
+      info = "인벤토리가 가득 찼어요! \n 레벨업하거나 슬라임을 내보내고 다시 뽑으세요!";
+      imgsource = "assets/poor.png";
+      _visibility = false;
+    }
+    else if (_manager.root.dia < gotchyaPrice){  // 돈 모자람
       info = "안타깝네요! ${gotchyaPrice-_manager.root.dia} \u{1F48E} 더 모아오세요"; //gem stone
       imgsource = "assets/poor.png";
       _visibility = false;
     }
     else{ // 갓챠 실행함
       _manager.root.dia -= gotchyaPrice;
+      // TODO 임시로 dia = point
+      _manager.root.point = _manager.root.dia;
       info = "Lev: ${(malangtype ~/ 3).toString()}, Birth: ${DateTime.now().toString()}";
-      imgsource = slimeType[malangtype]![1];
+      imgsource = SLIMETYPE[malangtype]!["gifsource"];
     }
+    serverUtils.updateUser(_manager.root);  // 갓챠를 했으면 무조건 돈은 사용되는거임.
 
     return Scaffold(
       body: Column(
@@ -131,11 +148,10 @@ class _Gotchya extends State<Gotchya>{
                         ownerid: _manager.root.id,
                         type: malangtype,
                         nickname: "익명의 슬라임"
-                      );
+                      );  //Birth 는 내부적으로 생성됨.
                       if(myController.text.isNotEmpty)
                         newmalang.nickname = myController.text;
-                      serverUtils.addSlime(newmalang); // 새로 생성된 말랑이 서버에 요청해서 DB에 적기
-
+                      serverUtils.addSlime(newmalang); // 새로 생성된 말랑이 서버에 요청해서 DB에 적기// 유저 업데이트하기
                       Navigator.pushNamed(context, '/inventory');
                     },
                     child: Text("OK!")
@@ -154,3 +170,6 @@ class _Gotchya extends State<Gotchya>{
     );
   }
 }
+
+
+

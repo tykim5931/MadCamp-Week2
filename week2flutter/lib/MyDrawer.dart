@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
+import 'Global/KakaoLogin.dart';
+import 'Global/UserManager.dart';
 
 
 class MyDrawer extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
+
+    ViewModel viewModel = Provider.of<ViewModel>(context, listen: false);
+    UserManager _manager = Provider.of<UserManager>(context, listen: false);
+
+    // 프로필 설정
+    var profile = null;
+    profile = NetworkImage(viewModel.user?.kakaoAccount?.profile?.profileImageUrl  ??  '');
+    if(profile == null){
+      profile = AssetImage('assets/poor.png');
+    }
+
     return Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -12,11 +28,11 @@ class MyDrawer extends StatelessWidget{
             Container(
               child: UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('assets/spaki.gif'),
+                  backgroundImage: profile,
                   // backgroundColor: Colors.white,
                 ),
-                accountName: Text('Account'),
-                accountEmail: Text('Email@gmail.com'),
+                accountName: Text('${_manager.root.nickname}'),
+                accountEmail: Text('Level: ${_manager.root.level}'),
                 onDetailsPressed:(){
                   print('arrow is clicked');
                 },
@@ -30,22 +46,30 @@ class MyDrawer extends StatelessWidget{
               ),
             ),
             ListTile(
-              leading: Icon(Icons.settings,
+              leading: Icon(Icons.account_circle,
                   color: Colors.grey[850]),
-              title: Text('Settings'),
+              title: Text('Change Nickname'),
               onTap:(){
-                print('Setting is clicked');
+                Navigator.pushNamed(context, '/editnickname');
               },
-              trailing: Icon(Icons.add),
             ),
             ListTile(
-              leading: Icon(Icons.signal_wifi_connected_no_internet_4,
+              leading: Icon(Icons.account_balance_rounded,
                   color: Colors.grey[850]),
-              title: Text('Settings'),
+              title: Text('Level Up'),
               onTap:(){
+                Navigator.pushNamed(context, '/levelup');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout,
+                  color: Colors.grey[850]),
+              title: Text('Logout'),
+              onTap:() async {
+                await viewModel.logout();
+                // setState((){});
                 Navigator.pushNamed(context, '/login');
               },
-              trailing: Icon(Icons.add),
             ),
           ],
         )

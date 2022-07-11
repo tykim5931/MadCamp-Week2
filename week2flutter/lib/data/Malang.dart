@@ -44,15 +44,3 @@ class Malang {
         'nickname':nickname,
       };
 }
-
-Map<int, List<String>> slimeType =
-{ 0: ["플레인", "assets/plain.gif"],
-  1: ["물방울","assets/waterdrop.gif"],
-  2: ["오로라","assets/ourora.gif"],
-  3: ["바이러스","assets/vvirus.gif"],
-  4: ["강아지","assets/puppy.gif"],
-  5: ["재빠른병아리","assets/fastchick.gif"],
-  6: ["유니콘","assets/unicorn.gif"],
-  7: ["플라워","assets/flower.gif"],
-  8: ["잠탱이","assets/sleepy.gif"]
-};

@@ -23,20 +23,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'data/arguments.dart';
 
 
 
-List<Malang> malangList = [
-  Malang(ownerid: "1", type: 0, nickname: "플레인"),
-  Malang(ownerid: "1", type: 1, nickname: "물방울"),
-  Malang(ownerid: "1", type: 2, nickname: "오로라"),
-  Malang(ownerid: "1", type: 3, nickname: "바이러스"),
-  Malang(ownerid: "1", type: 4, nickname: "강아지"),
-  Malang(ownerid: "1", type: 5, nickname: "재빠른 병아리"),
-  Malang(ownerid: "1", type: 6, nickname: "유니콘"),
-  Malang(ownerid: "1", type: 7, nickname: "플라워"),
-  Malang(ownerid: "1", type: 8, nickname: "잠탱이"),
-];
+List<Malang> malangList = [];
 
 
 UserManager _manager = UserManager();
@@ -58,6 +49,14 @@ class _HomeState extends State<Home>{
   Widget build(BuildContext context) {
     UserManager _manager = Provider.of<UserManager>(context, listen: false);
 
+    // update user state
+    var future1 = serverUtils.requireUser(_manager.root.id);
+    future1.then((val) {
+      _manager.root = val[0]; // 중간에 다른 유저가 매물을 사면서 내 포인트가 늘어나게 되는 상황 대비!!
+    }).catchError((error) {
+      print('error: $error');
+    });
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -74,8 +73,14 @@ class _HomeState extends State<Home>{
                 child: GestureDetector(
                   onTap: (){ // user의 슬라임 리스트 가지고 포인트 계산
                     if(_manager.selected.id == _manager.root.id) {
-                      _manager.root.addPoint(calcPoint(malangList));
-                      serverUtils.updateUser(_manager.root);  // TODO update user !! 여기 타입변경이 문제될 수 있음
+                      var future = serverUtils.requireUser(_manager.root.id);
+                      future.then((val) {
+                        _manager.root = val[0]; // 중간에 다른 유저가 매물을 사면서 내 포인트가 늘어나게 되는 상황 대비!!
+                        _manager.root.addPoint(calcPoint(malangList));
+                        serverUtils.updateUser(_manager.root);
+                      }).catchError((error) {
+                        print('error: $error');
+                      });
                     }
                   },
                   child:GameWidget(game: MyGame(context: context, malangList: malangList)),
@@ -104,7 +109,10 @@ class _HomeState extends State<Home>{
                   child: Icon(Icons.message),
                   onPressed: () {
                     setState(() {
-                      serverUtils.addSlime(Malang(ownerid: "test1", type: 0, nickname: "플레인"));
+                      // serverUtils.addSlime(Malang(ownerid: _manager.root.id, type: 0, nickname: "플레인"));
+                      _manager.root.level = 1;
+                      _manager.root.point = 1000;
+                      serverUtils.updateUser(_manager.root);
                     });
                   },
                 ),
@@ -112,7 +120,11 @@ class _HomeState extends State<Home>{
                   heroTag: 'home_FAB1',
                   child: Icon(Icons.shopping_cart),
                   onPressed: (){
-                    Navigator.pushNamed(context, '/market');
+                    Navigator.pushNamed(
+                      context,
+                      '/market',
+                      arguments: GotchyaArgument(malangList.length)
+                  );
                   },
                 ),
                 FloatingActionButton(

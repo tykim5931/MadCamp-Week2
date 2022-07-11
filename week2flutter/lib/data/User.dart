@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class User{
   String id;
-  String nickname;
+  String? nickname;
   // Null blobimg = null; // display
   int point = 0;
   int level = 1;
   int dia = 0;
   int currentdia = 0;
-
+  Image profile = Image(image: AssetImage('assets/spaki.gif'));
 
   User({required this.id,
     required this.nickname,

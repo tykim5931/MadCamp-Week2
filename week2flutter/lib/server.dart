@@ -9,7 +9,7 @@ String _url = "http://192.249.18.162:80";
 
 
 // #### USER ######
-Future<User> reqireUser(String id) async { // 아이디로 유저 요청
+Future<List<User>> requireUser(String id) async { // 아이디로 유저 요청
   http.Response _res =
   await http.post(
       Uri.parse("$_url/user"),
@@ -19,7 +19,8 @@ Future<User> reqireUser(String id) async { // 아이디로 유저 요청
       body: json.encode({'userid': id})
   );
   print(_res.body);
-  return  User.fromJson(jsonDecode(_res.body));
+  var parsed = json.decode(_res.body).cast<Map<String, dynamic>>();
+  return parsed.map<User>((json) => User.fromJson(json)).toList();
 }
 
 Future<List<User>> searchUser(String text) async { // 아이디로 유저 요청
@@ -39,6 +40,19 @@ Future<User> updateUser(User user) async { // 유저 업데이트
   http.Response _res =
   await http.post(
       Uri.parse("$_url/userupdate"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: json.encode(user.toJson())
+  );
+  print(_res.body);
+  return  User.fromJson(jsonDecode(_res.body));
+}
+
+Future<User> addUser(User user) async { // 유저 업데이트
+  http.Response _res =
+  await http.post(
+      Uri.parse("$_url/useradd"),
       headers: {
         "Content-Type": "application/json",
       },

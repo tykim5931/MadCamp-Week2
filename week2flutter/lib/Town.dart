@@ -7,12 +7,6 @@ import 'server.dart' as serverUtils;
 
 
 late List<User> userList;
-// = [
-//   User(id: "짱구", nickname: "짱구"),
-//   User(id: "짱구", nickname: "짱구"),
-//   User(id: "짱구", nickname: "짱구"),
-//   User(id: "짱구", nickname: "짱구"),
-// ];
 
 
 class Town extends StatefulWidget{
@@ -57,8 +51,7 @@ class _Town extends State<Town>{
               builder: (context,snapshot) {
                 if (snapshot.hasData) {
                   userList = snapshot.data!;
-                  return SizedBox(
-                    height: 200,
+                  return Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
