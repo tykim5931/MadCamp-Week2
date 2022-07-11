@@ -16,19 +16,53 @@ import '../data/instances.dart';
 
 import '../server.dart' as serverUtils;
 
+/*
+class tapSlimeComponent extends SpriteAnimationComponent with Tappable{
+  @override
+  bool onTapDown(TapDownInfo event){
+    try{
+      print("slime tapped!");
+      return true;
+    } catch(error){
+      print(error);
+      return false;
+    }
+  }
+}*/
 
-class Slime{
+late var heartspr;
+late var transspr;
+
+
+class Slime extends SpriteAnimationComponent with Tappable{
   int? type;
-  double? speed;
-  SpriteAnimationComponent slime = SpriteAnimationComponent();
+  double speed = 1.0;
+  //tapSlimeComponent slime = tapSlimeComponent();
   int dir = 0; // path[dir]
   int dist = 50; // dist만큼의 거리를 이동할 예정
-
-  Slime(int type){
-    this.type = type;
-    this.speed = 1.0; // SLIMETYPE[type]!["speed"];
+  int tapped = 0;
+  SpriteComponent heart = SpriteComponent();
+  @override
+  bool onTapDown(TapDownInfo event){
+    try{
+      tapped = 1;
+      print("slime tapped!");
+      Future.delayed(const Duration(milliseconds: 2000), (){
+        tapped = 0;
+        print("tap finished");
+      });
+      return true;
+    } catch(error){
+      print(error);
+      return false;
+    }
   }
+  //Slime(int type){
+    //this.type = type;
+    //this.speed = 1.0; // SLIMETYPE[type]!["speed"];
+  //}
 }
+
 
 late UserManager _manager;
 
@@ -41,7 +75,7 @@ class MyGame extends FlameGame with HasTappables{
   var lAList = <SpriteAnimation>[]; // 왼쪽 애니메이션들 모음
   var path = [[1, 0], [0, 1], [-1, 0], [0, -1]]; // 방향
 
-  SpriteAnimationComponent slime = SpriteAnimationComponent();
+  Slime slime = Slime();
   var pointText = TextComponent();
   var diaText = TextComponent();
   BuildContext context;
@@ -59,6 +93,11 @@ class MyGame extends FlameGame with HasTappables{
   Future<void> onLoad() async{
     await super.onLoad();
     _manager = Provider.of<UserManager>(context, listen: false);
+
+    ////heart/////
+    heartspr = await loadSprite('heart2.png');
+    transspr = await loadSprite('transp.png');
+
 
     ////////// BACKGROUND //////////////
     double maxSide = max(size.x, size.y);
@@ -78,16 +117,33 @@ class MyGame extends FlameGame with HasTappables{
       lAList.add(spList[i].createAnimation(row: 1, stepTime: 0.5, to: 2));
     }
     for(Malang item in malangList){
-      slimeList.add(Slime(item.getType())); // Slime(종류, 속도)
+      Slime newslime = Slime();
+      newslime.type = item.getType();
+      newslime.heart = SpriteComponent()
+        ..sprite = transspr
+        ..size = Vector2(30, 30)
+        ..x = 200
+        ..y = 200;
+      slimeList.add(newslime); // Slime(종류, 속도)
     }
     for(int i=0; i < slimeList.length; i++){
-      slimeList[i].slime = SpriteAnimationComponent()
+      slimeList[i] = Slime()
+        ..speed = slimeList[i].speed
+        ..dir = slimeList[i].dir
+        ..dist = slimeList[i].dist
+        ..type = slimeList[i].type
+        ..tapped = slimeList[i].tapped
+        ..heart = slimeList[i].heart
         ..animation = rAList[slimeList[i].type ?? 0]
         ..x = Random().nextDouble()*300
         ..y = Random().nextDouble()*500
+        ..heart.position = Vector2(slimeList[i].x + 65, slimeList[i].y)
         ..size = Vector2.all(80);
-      add(slimeList[i].slime);
+      add(slimeList[i]);
+      add(slimeList[i].heart);
     }
+
+
 
     //////////////// Point Component ///////////////
     pointText = TextComponent(
@@ -146,7 +202,7 @@ class MyGame extends FlameGame with HasTappables{
 
     ////////////// Slimes //////////////////
     for(int i=0; i < slimeList.length; i++){
-      SpriteAnimationComponent slime = slimeList[i].slime;
+      Slime slime = slimeList[i];
       if(slimeList[i].dist<0){
         slimeList[i].dir = Random().nextInt(4);
         if(slimeList[i].dir==0){
@@ -158,19 +214,19 @@ class MyGame extends FlameGame with HasTappables{
         slimeList[i].dist=(Random().nextDouble()*100).toInt();
       }
       else{
-        if(slime.x>size.x-10){
+        if(slime.x>size.x-80){
           slime.x-=1;
           slimeList[i].dist = 0;
         }
-        else if(slime.x<10){
+        else if(slime.x<0){
           slime.x+=1;
           slimeList[i].dist = 0;
         }
-        else if(slime.y<10){
+        else if(slime.y<0){
           slime.y+=1;
           slimeList[i].dist = 0;
         }
-        else if(slime.y>size.y-10){
+        else if(slime.y>size.y-100){
           slime.y-=1;
           slimeList[i].dist = 0;
         }
@@ -180,6 +236,16 @@ class MyGame extends FlameGame with HasTappables{
           slimeList[i].dist -= 1;
         }
       }
+
+      if(slime.tapped==0){ // 탭되지 않았을 때
+        slime.heart.sprite = transspr; // 말풍선 투명
+      }
+      else{
+        slime.heart.sprite = heartspr; // 하트 띄워지고 가만히 서있게
+        slime.heart.size = Vector2(30, 30);
+        slime.heart.position = Vector2(slime.x+65, slime.y);
+      }
+
     }
 
     /////////////////// point Text //////////////////////
