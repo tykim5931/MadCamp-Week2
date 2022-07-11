@@ -64,9 +64,9 @@ class _Gotchya extends State<Gotchya>{
     String info = "";
     var _visibility = true;
 
-    if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){
+    if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){ // 인벤토리 가득참
       info = "인벤토리가 가득 찼어요! \n 레벨업하거나 슬라임을 내보내고 다시 뽑으세요!";
-      imgsource = "assets/poor.png";
+      imgsource = "assets/full.png";
       _visibility = false;
     }
     else if (_manager.root.dia < gotchyaPrice){  // 돈 모자람

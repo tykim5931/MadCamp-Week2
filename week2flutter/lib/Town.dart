@@ -75,21 +75,27 @@ class _Town extends State<Town>{
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "ID: ${userList.elementAt(idx).id}",
-                                                style: const TextStyle(
-                                                  fontSize: 15,
+                                            Padding(
+                                              padding: const EdgeInsets.all(5.0),
+                                              child: Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  "Nickname: ${userList.elementAt(idx).nickname}",
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                "Email: ${userList.elementAt(idx).nickname}",
-                                                style: const TextStyle(
-                                                  fontSize: 15,
+                                            Padding(
+                                              padding: const EdgeInsets.all(5.0),
+                                              child: Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  "Level   : ${userList.elementAt(idx).level}",
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
                                               ),
                                             ),
