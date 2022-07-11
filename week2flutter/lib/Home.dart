@@ -110,8 +110,7 @@ class _HomeState extends State<Home>{
                   onPressed: () {
                     setState(() {
                       // serverUtils.addSlime(Malang(ownerid: _manager.root.id, type: 0, nickname: "플레인"));
-                      _manager.root.level = 1;
-                      _manager.root.point = 1000;
+                      _manager.root.currentdia = 0;
                       serverUtils.updateUser(_manager.root);
                     });
                   },
