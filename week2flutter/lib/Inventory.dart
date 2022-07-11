@@ -52,98 +52,102 @@ class _Inventory extends State<Inventory>{
                   child: Text("갓챠!!")
               ),
 
-              FutureBuilder<List<Malang>>(
-                future: serverUtils.getSlimes(_manager.root.id),
-                builder: (context,snapshot) {
-                  if (snapshot.hasData) {
-                      malangList = snapshot.data!;
-                    return Expanded(
-                        child: GridView.builder(
-                            itemCount: malangList.length,
-                            shrinkWrap: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 1/2, // 가로/세로 비율
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                            ),
-                            itemBuilder: (BuildContext context, int idx){
-                              // item의 반복문 항목 형성
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton(
-                                            onPressed: (){
-                                              Navigator.pushNamed(
-                                                  context,
-                                                  '/sellDelete',
-                                                  arguments: ScreenArgument(
-                                                      malangList[idx],
-                                                      false
-                                                  ));
-                                            },
-                                            child: Text("방출")
+              Center(
+                child: FutureBuilder<List<Malang>>(
+                  future: serverUtils.getSlimes(_manager.root.id),
+                  builder: (context,snapshot) {
+                    if (snapshot.hasData) {
+                        malangList = snapshot.data!;
+                      return Expanded(
+                          child: GridView.builder(
+                              itemCount: malangList.length,
+                              shrinkWrap: true,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 1/2, // 가로/세로 비율
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                              ),
+                              itemBuilder: (BuildContext context, int idx){
+                                // item의 반복문 항목 형성
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
+                                              onPressed: (){
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    '/sellDelete',
+                                                    arguments: ScreenArgument(
+                                                        malangList[idx],
+                                                        false
+                                                    ));
+                                              },
+                                              child: Text("방출")
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
+                                              onPressed: (){
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    '/sellDelete',
+                                                    arguments: ScreenArgument(
+                                                        malangList[idx],
+                                                        true
+                                                    )
+                                                );
+                                              },
+                                              child: Text("경매")
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Image.asset(
+                                        SLIMETYPE[malangList.elementAt(idx).type]!["gifsource"]
+                                    ),
+                                    Container(
+                                      height: 20,
+                                      alignment: Alignment.center,
+                                      color: Colors.yellow,
+                                      child: Text(
+                                        "Lev ${malangList.elementAt(idx).type ~/ 3}",
+                                        style: const TextStyle(
+                                          fontSize: 20,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: ElevatedButton(
-                                            onPressed: (){
-                                              Navigator.pushNamed(
-                                                  context,
-                                                  '/sellDelete',
-                                                  arguments: ScreenArgument(
-                                                      malangList[idx],
-                                                      true
-                                                  )
-                                              );
-                                            },
-                                            child: Text("경매")
+                                    ),
+                                    Container(
+                                      color: Colors.lightGreenAccent,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        malangList.elementAt(idx).nickname,
+                                        style: const TextStyle(
+                                          fontSize: 20,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Image.asset(
-                                      SLIMETYPE[malangList.elementAt(idx).type]!["gifsource"]
-                                  ),
-                                  Container(
-                                    height: 20,
-                                    alignment: Alignment.center,
-                                    color: Colors.yellow,
-                                    child: Text(
-                                      '$idx',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    color: Colors.lightGreenAccent,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      malangList.elementAt(idx).nickname,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                        ));
-                  } else if (snapshot.hasData == false) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('스냅샷 에러');
-                  } else {
-                    return Text('혹시 몰라서 else문 추가');
-                  }
-                },
+                                  ],
+                                );
+                              }
+                          ));
+                    } else if (snapshot.hasData == false) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('스냅샷 에러');
+                    } else {
+                      return Text('혹시 몰라서 else문 추가');
+                    }
+                  },
+                ),
               ),
             ],
           )

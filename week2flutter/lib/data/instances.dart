@@ -2,23 +2,23 @@
 
 final Map<int, Map<String, dynamic>> USERLEVEL =
 { // inventory size, price, backgroundimg 경로
-  1: {"inventory": 3, "price": 0, "imgsource": "background_1.png",
+  1: {"inventory": 3, "price": 0, "imgsource": "background_1.png","thumbnail": "assets/images/thumbnail_1.png",
       "probalist": [9,1,0]},
-  2: {"inventory": 5, "price": 500, "imgsource": "background_2.png",
+  2: {"inventory": 5, "price": 500, "imgsource": "background_2.png","thumbnail": "assets/images/thumbnail_2.png",
       "probalist": [8,2,0,]},
-  3: {"inventory": 7, "price": 3000, "imgsource": "background_3.png",
+  3: {"inventory": 7, "price": 3000, "imgsource": "background_3.png","thumbnail": "assets/images/thumbnail_3.png",
       "probalist": [7,3,0]},
-  4: {"inventory": 9, "price": 10000, "imgsource": "background_4.png",
+  4: {"inventory": 9, "price": 10000, "imgsource": "background_4.png","thumbnail": "assets/images/thumbnail_4.png",
       "probalist": [7,3,1]},
-  5: {"inventory": 11, "price": 50000, "imgsource": "background_5.png",
+  5: {"inventory": 11, "price": 50000, "imgsource": "background_5.png","thumbnail": "assets/images/thumbnail_5.png",
       "probalist": [6,4,1]},
-  6: {"inventory": 14, "price": 150000, "imgsource": "background_6.png",
+  6: {"inventory": 14, "price": 150000, "imgsource": "background_6.png","thumbnail": "assets/images/thumbnail_6.png",
       "probalist": [6,6,2]},
-  7: {"inventory": 17, "price": 1000000, "imgsource": "background_7.png",
+  7: {"inventory": 17, "price": 1000000, "imgsource": "background_7.png","thumbnail": "assets/images/thumbnail_7.png",
       "probalist": [5,6,2]},
-  8: {"inventory": 20, "price": 3000000, "imgsource": "background_8.png",
+  8: {"inventory": 20, "price": 3000000, "imgsource": "background_8.png","thumbnail": "assets/images/thumbnail_8.png",
       "probalist": [5,6,3]},
-  9: {"inventory": 15, "price": 10000000, "imgsource": "background_9.png",
+  9: {"inventory": 15, "price": 10000000, "imgsource": "background_9.png","thumbnail": "assets/images/thumbnail_9.png",
       "probalist": [4,6,4]},
 };
 

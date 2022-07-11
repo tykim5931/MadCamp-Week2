@@ -13,7 +13,7 @@ import 'LevelUp.dart';
 import 'Login.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'Global/KakaoLogin.dart';
-
+import 'package:flutter/services.dart';
 
 
 void main() {
@@ -32,9 +32,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {  // 커스텀 위젯은 반드시 build를 override. 또 다른 위젯을 return.
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
       title: 'JellyBuds', // 앱의 찐이름
       theme: ThemeData(
+        fontFamily: 'pixelfonts',
         primarySwatch: Colors.blue// 사용할 색상견본
       ),
       initialRoute: '/login',

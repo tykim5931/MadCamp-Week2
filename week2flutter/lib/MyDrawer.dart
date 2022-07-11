@@ -37,7 +37,7 @@ class MyDrawer extends StatelessWidget{
                   print('arrow is clicked');
                 },
                 decoration: BoxDecoration(
-                  color: Colors.red[200],
+                  color: Colors.lime,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0)

@@ -91,22 +91,24 @@ class MyGame extends FlameGame with HasTappables{
 
     //////////////// Point Component ///////////////
     pointText = TextComponent(
-        text: "\u{1F4B0} X ${_manager.root.point.toString()}",
+        text: "\u{1F4B0} ${_manager.root.point.toString()}",
         textRenderer: TextPaint(
             style: TextStyle(
               color: BasicPalette.white.color,
               fontSize: 25,
+              fontFamily: 'pixelfonts',
             )
         ))
       ..anchor = Anchor.topLeft
       ..x = 30.0
       ..y = 30.0;
     diaText = TextComponent(
-        text: "\u{1F48E} X ${_manager.root.dia.toString()}",
+        text: "\u{1F48E} ${_manager.root.dia.toString()}",
         textRenderer: TextPaint(
             style: TextStyle(
               color: BasicPalette.white.color,
               fontSize: 25,
+              fontFamily: 'pixelfonts',
             )
         ))
       ..anchor = Anchor.topLeft
@@ -181,8 +183,8 @@ class MyGame extends FlameGame with HasTappables{
     }
 
     /////////////////// point Text //////////////////////
-    pointText.text = "\u{1F4B0} X ${_manager.root.point.toString()}";
-    diaText.text = "\u{1F48E} X ${_manager.root.dia.toString()}";
+    pointText.text = "\u{1F4B0} ${_manager.root.point.toString()}";
+    diaText.text = "\u{1F48E} ${_manager.root.dia.toString()}";
 
     ///// gembox /////
     for(int i=0; i < gemboxlist.length; i++){
