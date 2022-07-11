@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       title: 'JellyBuds', // 앱의 찐이름
       theme: ThemeData(
         fontFamily: 'pixelfonts',
-        primarySwatch: Colors.blue// 사용할 색상견본
+        primarySwatch: Colors.purple,// 사용할 색상견본
       ),
       initialRoute: '/login',
       routes: {
@@ -56,3 +56,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

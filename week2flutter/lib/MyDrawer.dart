@@ -31,8 +31,16 @@ class MyDrawer extends StatelessWidget{
                   backgroundImage: profile,
                   // backgroundColor: Colors.white,
                 ),
-                accountName: Text('${_manager.root.nickname}'),
-                accountEmail: Text('Level: ${_manager.root.level}'),
+                accountName: Text('${_manager.root.nickname}',
+                  style: TextStyle(
+                      fontSize:20
+                  ),
+                ),
+                accountEmail: Text('Level: ${_manager.root.level}',
+                  style: TextStyle(
+                      fontSize:17
+                  ),
+                ),
                 onDetailsPressed:(){
                   print('arrow is clicked');
                 },
@@ -48,7 +56,11 @@ class MyDrawer extends StatelessWidget{
             ListTile(
               leading: Icon(Icons.account_circle,
                   color: Colors.grey[850]),
-              title: Text('Change Nickname'),
+              title: Text('Change Nickname',
+                style: TextStyle(
+                    fontSize:20
+                ),
+              ),
               onTap:(){
                 Navigator.pushNamed(context, '/editnickname');
               },
@@ -56,7 +68,11 @@ class MyDrawer extends StatelessWidget{
             ListTile(
               leading: Icon(Icons.account_balance_rounded,
                   color: Colors.grey[850]),
-              title: Text('Level Up'),
+              title: Text('Level Up',
+                style: TextStyle(
+                    fontSize:20
+                ),
+              ),
               onTap:(){
                 Navigator.pushNamed(context, '/levelup');
               },
@@ -64,7 +80,12 @@ class MyDrawer extends StatelessWidget{
             ListTile(
               leading: Icon(Icons.logout,
                   color: Colors.grey[850]),
-              title: Text('Logout'),
+              title: Text(
+                  'Logout',
+                style: TextStyle(
+                  fontSize:20
+                ),
+              ),
               onTap:() async {
                 await viewModel.logout();
                 // setState((){});

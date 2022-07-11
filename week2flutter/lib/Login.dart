@@ -7,6 +7,7 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:week2flutter/data/instances.dart';
 
 import 'Global/KakaoLogin.dart';
 import 'Global/UserManager.dart';
@@ -36,9 +37,8 @@ class _Login extends State<Login>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/waterdrop.gif"),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +48,7 @@ class _Login extends State<Login>{
                     "Welcome to",
                     style: TextStyle(
                       color: Colors.lime,
-                      fontSize: 20,
+                      fontSize: 30,
                     ),
                   ),
                   Text(
@@ -56,12 +56,13 @@ class _Login extends State<Login>{
                     "MalangMalang",
                     style: TextStyle(
                       color: Colors.lightGreen,
-                      fontSize: 30,
+                      fontSize: 50,
                     ),
                   ),
                 ],
               ),
             ),
+            Image.asset(SLIMETYPE[Random().nextInt(SLIMETYPE.length)]!["gifsource"]),
             ElevatedButton(
                 onPressed: () async {
                   await viewModel.login();

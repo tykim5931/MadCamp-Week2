@@ -128,35 +128,37 @@ class _Market extends State<Market>{
                                 flex: 2,
                                 child:Container(
                                   alignment: Alignment.centerLeft,
-                                  color: Colors.blue,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Container(
+                                        padding: EdgeInsets.all(2.0),
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Name: ${malangList.elementAt(idx).nickname}",
+                                          "Name : ${malangList.elementAt(idx).nickname}",
                                           style: const TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 17,
                                           ),
                                         ),
                                       ),
                                       Container(
                                         alignment: Alignment.centerLeft,
+                                        padding: EdgeInsets.all(2.0),
                                         child: Text(
-                                          "Age: ${malangList.elementAt(idx).createdtime} D",
+                                          "Birth: ${malangList.elementAt(idx).createdtime.substring(0, 10)}",
                                           style: const TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 17,
                                           ),
                                         ),
                                       ),
                                       Container(
                                         alignment: Alignment.centerLeft,
+                                        padding: EdgeInsets.all(2.0),
                                         child: Text(
                                           "Price: ${malangList.elementAt(idx).price} P",
                                           style: const TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 17,
                                           ),
                                         ),
                                       ),
@@ -169,6 +171,7 @@ class _Market extends State<Market>{
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                     onPressed: (){
                                       Malang malang = malangList.elementAt(idx);
                                       if(currLen >= USERLEVEL[_manager.root.level]!["inventory"]){
