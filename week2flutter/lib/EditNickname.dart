@@ -28,21 +28,37 @@ class _EditNickname extends State<EditNickname>{
     UserManager _manager = Provider.of<UserManager>(context, listen: false);
     var myController = TextEditingController();
 
+    var profile = NetworkImage(viewModel.user?.kakaoAccount?.profile?.profileImageUrl  ??  '');
+
     return Scaffold(
         body:Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/waterdrop.gif'),
-                  // Image.network(viewModel.user?.kakaoAccount?.profile?.profileImageUrl  ??  ''),
                   Text(
-                    '닉네임 변경',
-                    style: Theme.of(context).textTheme.headline4,
+                    '닉네임 변경하기',
+                    style: const TextStyle(
+                      fontSize: 30,
+                    ),
                   ),
                   Container(
-                      height: 30,
+                      height: 20
+                  ),
+                  Container(
+                    height:80,
+                    width:80,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.network(viewModel.user?.kakaoAccount?.profile?.profileImageUrl  ??  ''),
+                    ),
+                  ),
+                  Container(
+                      height: 20
+                  ),
+                  Container(
+                      height: 35,
+                      width: 250,
                       alignment: Alignment.center,
-                      color: Colors.yellow,
                       child: TextField(
                         controller: myController,
                         decoration: InputDecoration(
@@ -51,9 +67,12 @@ class _EditNickname extends State<EditNickname>{
                         ),
                       )
                   ),
+                  Container(
+                      height: 20
+                  ),
                   Row(
 
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
 
                     children: [
@@ -67,6 +86,9 @@ class _EditNickname extends State<EditNickname>{
                             Navigator.pushNamed(context, '/');
                           },
                           child: const Text('완료')),
+                      Container(
+                          width: 20
+                      ),
                       ElevatedButton(
                           onPressed: () async {
                             if(_manager.root.nickname == null){

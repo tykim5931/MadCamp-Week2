@@ -36,12 +36,13 @@ class _SellDelete extends State<SellDelete>{
     var sell = args.sell;
     var myController = TextEditingController();
 
-
-    String info = "Lev: ${_malang.type.toString()}, Birth: ${_malang.createdtime.toString()}";
+    String descritpion = "정말로 버리시겠습니까?";
+    String info = "Name : ${_malang.nickname.toString()}\nLev  : ${_malang.type.toString()} \nBirth: ${_malang.createdtime.toString().substring(0, 10)}";
     var _visibility = true;
     String btnText = "";
 
     if (sell){  // 경매
+      descritpion = "슬라임을 판매합니다.";
       btnText = "내다팔기";
       _visibility = true;
     }
@@ -55,36 +56,37 @@ class _SellDelete extends State<SellDelete>{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Visibility(
-              visible: !_visibility,
-              child: Text(
-                "정말로 버리시겠습니까?",
-                style: const TextStyle(
-                fontSize: 40,
-              ),
-              ),
+            Text(
+              descritpion,
+              style: const TextStyle(
+              fontSize: 30,
+            ),
             ),
             Image.asset(
               SLIMETYPE[_malang.type]!["gifsource"],
             ),
-            Container(
-              color: Colors.lightGreenAccent,
-              alignment: Alignment.center,
-              child: Text(
-                info,
-                style: const TextStyle(
-                  fontSize: 20,
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  info,
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
-
+            Container(
+                height: 20
+            ),
             // ### Get Name
             Visibility(
               visible: _visibility,
               child: Container(
-                  height: 30,
+                  height: 35,
+                  width: 250,
                   alignment: Alignment.center,
-                  color: Colors.yellow,
                   child: TextField(
                     controller: myController,
                     decoration: InputDecoration(
@@ -94,9 +96,11 @@ class _SellDelete extends State<SellDelete>{
                   )
               ),
             ),
-
+            Container(
+                height: 20
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
 
               children: [
@@ -121,6 +125,15 @@ class _SellDelete extends State<SellDelete>{
                       Navigator.pushNamed(context, '/inventory');
                     },
                     child: Text(btnText)
+                ),
+                Container(
+                  width: 20
+                ),
+                ElevatedButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/inventory');
+                    },
+                    child: Text("뒤로가기")
                 ),
               ],
             )
