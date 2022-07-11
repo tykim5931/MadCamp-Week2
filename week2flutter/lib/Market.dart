@@ -48,10 +48,12 @@ class _Market extends State<Market>{
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(height: 8),
             Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Container(width: 5),
                   Expanded(
                     flex:1,
                     child: ElevatedButton(
@@ -63,6 +65,7 @@ class _Market extends State<Market>{
                         child: Text("레벨높은순")
                     ),
                   ),
+                  Container(width: 3),
                   Expanded(
                     flex:1,
                   child: ElevatedButton(
@@ -74,6 +77,7 @@ class _Market extends State<Market>{
                       child: Text("레벨낮은순")
                   ),
                   ),
+                  Container(width: 3),
                   Expanded(
                     flex:1,
                       child: ElevatedButton(
@@ -85,6 +89,7 @@ class _Market extends State<Market>{
                       child: Text("가격높은순")
                   ),
                   ),
+                  Container(width: 3),
                   Expanded(
                       flex:1,
                       child: ElevatedButton(
@@ -96,9 +101,10 @@ class _Market extends State<Market>{
                       child: Text("가격낮은순")
                   )
                   ),
+                  Container(width: 5),
                 ]
             ),
-
+            Container(height: 8),
             FutureBuilder<List<Malang>>(
               future: future,
               builder: (context,snapshot) {

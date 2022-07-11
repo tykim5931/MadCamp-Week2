@@ -117,6 +117,8 @@ class _Inventory extends State<Inventory>{
                                             child: Text("방출")
                                         ),
                                       ),
+
+                                      Container(width: 2),
                                       Expanded(
                                         flex:1,
                                         child: ElevatedButton(
