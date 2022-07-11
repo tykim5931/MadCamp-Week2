@@ -59,14 +59,10 @@ class _Gotchya extends State<Gotchya>{
     print(malangtype);
 
     var myController = TextEditingController();
-    var gotchyaPrice = 100; // dia
+    var gotchyaPrice = 3; // dia
     String imgsource = "";
     String info = "";
     var _visibility = true;
-
-    // TODO 임시로 dia = point,
-    _manager.root.dia = _manager.root.point;
-
 
     if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){
       info = "인벤토리가 가득 찼어요! \n 레벨업하거나 슬라임을 내보내고 다시 뽑으세요!";
@@ -80,8 +76,6 @@ class _Gotchya extends State<Gotchya>{
     }
     else{ // 갓챠 실행함
       _manager.root.dia -= gotchyaPrice;
-      // TODO 임시로 dia = point
-      _manager.root.point = _manager.root.dia;
       info = "Lev: ${(malangtype ~/ 3).toString()}, Birth: ${DateTime.now().toString()}";
       imgsource = SLIMETYPE[malangtype]!["gifsource"];
     }

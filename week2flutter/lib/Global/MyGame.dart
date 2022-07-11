@@ -48,8 +48,8 @@ class MyGame extends FlameGame with HasTappables{
   List<Malang> malangList;
 
   // GemBox
-  GemBox gembox = GemBox();
-  final Vector2 buttonSize = Vector2(100,100);
+  var gemboxlist = <GemBox>[];
+  final Vector2 buttonSize = Vector2(40,40);
 
   ParallaxComponent bush = ParallaxComponent();
 
@@ -63,7 +63,7 @@ class MyGame extends FlameGame with HasTappables{
     ////////// BACKGROUND //////////////
     double maxSide = max(size.x, size.y);
     String imgsource = USERLEVEL[_manager.selected.level]!["imgsource"];
-    SpriteComponent background = SpriteComponent()
+    BackGroundComponent background = BackGroundComponent(malangList)
       ..sprite = await loadSprite(imgsource)
       ..center = Vector2(-70, 0)
       ..size = Vector2(maxSide -100 , maxSide);
@@ -119,11 +119,21 @@ class MyGame extends FlameGame with HasTappables{
     }
 
     // gembox
-    gembox
-    ..sprite = await loadSprite('slime_0.png')
-    ..size = buttonSize
-    ..position = Vector2(size[0]/2, size[1]/2);
-    add(gembox);
+    List<double> pos = [size[0]-60, 40, size[0]/2, size[1]/2-10, size[0]-80, size[1]-150];
+    int poschoose = Random().nextInt(3);
+    if(_manager.root.currentdia < 10){
+      int gemcount = min(3, Random().nextInt(10 - _manager.root.currentdia));  // 그날 모은 다이아 개수보다 작게 생성함!!
+      for (int i = 0; i < gemcount; i++){
+        GemBox gemBox = GemBox()
+          ..sprite = await loadSprite('gembox.png')
+          ..size = buttonSize
+          ..position = Vector2(pos[poschoose*2], pos[poschoose*2+1]);
+        gemboxlist.add(gemBox);
+      }
+    }
+    for(int i=0; i < gemboxlist.length; i++){
+      add(gemboxlist[i]);
+    }
   }
 
   @override
@@ -175,8 +185,37 @@ class MyGame extends FlameGame with HasTappables{
     diaText.text = "\u{1F48E} X ${_manager.root.dia.toString()}";
 
     ///// gembox /////
-    if(gembox.tabbed){
-      this.remove(gembox);
+    for(int i=0; i < gemboxlist.length; i++){
+      if(gemboxlist[i].tabbed){
+        gemboxlist[i].removeFromParent();
+        gemboxlist.removeAt(i);
+      }
+    }
+  }
+  
+  
+}
+
+class BackGroundComponent extends SpriteComponent with Tappable {
+  var malangList;
+  BackGroundComponent(this.malangList);
+  @override
+  bool onTapDown(TapDownInfo event) {
+    try {
+      if (_manager.selected.id == _manager.root.id) {
+        var future = serverUtils.requireUser(_manager.root.id);
+        future.then((val) {
+          _manager.root = val[0]; // 중간에 다른 유저가 매물을 사면서 내 포인트가 늘어나게 되는 상황 대비!!
+          _manager.root.addPoint(calcPoint(malangList));
+          serverUtils.updateUser(_manager.root);
+        }).catchError((error) {
+          print('error: $error');
+        });
+      }
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
     }
   }
 }
@@ -187,17 +226,35 @@ class GemBox extends SpriteComponent with Tappable {
   bool onTapDown(TapDownInfo event){
     try{
 
-      // _manager.root.dia = _manager.root.dia + 1;
-      // _manager.root.currentdia = _manager.root.currentdia + 1;
-      // serverUtils.updateUser(_manager.root);
+      var future = serverUtils.requireUser(_manager.root.id);
+      future.then((val) {
+
+        _manager.root = val[0]; // 중간에 다른 유저가 매물
+        _manager.root.dia = _manager.root.dia + 1;
+        _manager.root.currentdia = _manager.root.currentdia + 1;
+        serverUtils.updateUser(_manager.root);
+
+      }).catchError((error) {
+        print('error: $error');
+      });
 
       print("randomly give gem or not!");
-      this.tabbed  =true;
+      this.tabbed = true;
       return true;
+
     } catch(error){
       print(error);
       return false;
     }
   }
+}
 
+int calcPoint(List<Malang> malanglist) {
+  int point = 0;
+  if (malanglist.isEmpty)
+    return 1;
+  for (int i = 0; i < malanglist.length; i++) {
+    point = point + ((malanglist[i].type) ~/ 3 + 1); // 3개씩 같은 레벨.
+  }
+  return point;
 }
