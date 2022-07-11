@@ -32,13 +32,15 @@ class _LevelUp extends State<LevelUp>{
     int price;
     String inform;
     int lev = _manager.root.level + 1;
-    price = USERLEVEL[lev]!["price"];
-    inform = "${price}P를 지불하고 Level Up 하시겠습니까?";
 
     if(lev == 10) { // 9단계 다음은 없음.
       price = 0;
       inform = "더 올라갈 레벨이 없습니다!";
       _visibility = false;
+    }
+    else{
+      price = USERLEVEL[lev]!["price"];
+      inform = "${price}P를 지불하고 Level Up 하시겠습니까?";
     }
 
     return Scaffold(

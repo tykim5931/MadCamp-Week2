@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:week2flutter/data/instances.dart';
 import 'Global/UserManager.dart';
 import 'MyDrawer.dart';
 import 'data/User.dart';
@@ -55,8 +56,9 @@ class _Town extends State<Town>{
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [ Expanded(
-                          child: ListView.builder(
+                        children: [
+                          Expanded(
+                          child: ListView.separated(
                               itemCount: userList.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int idx){
@@ -66,36 +68,43 @@ class _Town extends State<Town>{
                                   crossAxisAlignment: CrossAxisAlignment.center,
 
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        child: Image.asset(
+                                          "assets/images/thumbnail_${userList[idx].level}.png",
+                                          // USERLEVEL[userList[idx].level]!["thumbnail"],
+                                          width: 50,
+                                          height: 50,
+                                        ),
+                                      ),
+                                    ),
                                     Expanded(
                                       flex: 2,
                                       child:Container(
                                         alignment: Alignment.centerLeft,
-                                        color: Colors.blue,
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Container(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  "Nickname: ${userList.elementAt(idx).nickname}",
-                                                  style: const TextStyle(
-                                                    fontSize: 15,
-                                                  ),
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(10,0,10,10),
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                "Nickname: ${userList.elementAt(idx).nickname}",
+                                                style: const TextStyle(
+                                                  fontSize: 17,
                                                 ),
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Container(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  "Level   : ${userList.elementAt(idx).level}",
-                                                  style: const TextStyle(
-                                                    fontSize: 15,
-                                                  ),
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(10,0,10,10),
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                "Level   : ${userList.elementAt(idx).level}",
+                                                style: const TextStyle(
+                                                  fontSize: 17,
                                                 ),
                                               ),
                                             ),
@@ -104,7 +113,7 @@ class _Town extends State<Town>{
                                       ),
                                     ),
                                     Expanded(
-                                      flex: 1,
+                                      flex: 0,
                                       child: Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: ElevatedButton(
@@ -124,9 +133,11 @@ class _Town extends State<Town>{
                                     ),
                                   ],
                                 );
-                              }
+                              }, separatorBuilder:
+                              (BuildContext context, int index) { return Divider(thickness: 1);},
                           ),
-                        )],
+                        )
+                        ],
                       ));
                 } else if (snapshot.hasData == false) {
                   return CircularProgressIndicator();
