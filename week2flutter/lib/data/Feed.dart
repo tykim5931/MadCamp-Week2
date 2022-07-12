@@ -7,7 +7,8 @@ class Feed {
   int type; // 슬라임의 종류
   String createdtime = DateTime.now().toString(); // 언제 뽑았는지(->게시글 작성일과 비슷)
   String nickname; // 갓챠로 뽑은 슬라임의 이름!
-  String line = "귀여운 슬라임을 뽑았다!!"; // 한줄 자랑글
+  String line = "Gotcha!"; // 한줄 자랑글
+  int likes = 0;
 
   Feed({ // 4가지 받도록 함
     required this.ownerid,
@@ -31,6 +32,7 @@ class Feed {
     feed.line = json['line'] as String;
     feed.createdtime = json['createdtime'] as String;
     feed.id = json['id'] as int;
+    feed.likes = json['likes'] as int;
     return feed;
   }
 
@@ -41,6 +43,7 @@ class Feed {
         'type': type,
         'createdtime':createdtime,
         'nickname':nickname,
-        'line':line
+        'line':line,
+        'likes':likes,
       };
 }
