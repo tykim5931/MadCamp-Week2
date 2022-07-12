@@ -9,6 +9,7 @@ import 'package:week2flutter/Inventory.dart';
 import 'package:week2flutter/data/instances.dart';
 import 'Global/UserManager.dart';
 import 'MyDrawer.dart';
+import 'data/Feed.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
 import 'server.dart' as serverUtils;
@@ -61,14 +62,16 @@ class _Gotchya extends State<Gotchya>{
     print(malangtype);
 
     var myController = TextEditingController();
+    var myController2 = TextEditingController();
     var gotchyaPrice = 3; // dia
     String imgsource = "";
     String info = "";
     String btn1 = "OK!";
     var _visibility = true;
+    var _visibility2 = false;
 
     if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){ // 인벤토리 가득참
-      info = "인벤토리가 가득 찼어요! \n레벨업하거나 슬라임을 내보내고 다시 뽑으세요!";
+      info = "인벤토리가 가득 찼어요! \n레벨업하거나 슬라임을\n내보내고 다시 뽑으세요!";
       imgsource = "assets/full.png";
       btn1 = "레벨업하러 가기";
       _visibility = false;
@@ -82,7 +85,7 @@ class _Gotchya extends State<Gotchya>{
     else{ // 갓챠 실행함
       _manager.root.dia -= gotchyaPrice;
       var table = ['C','B','A','S'];
-      info = "등급: ${table[(malangtype ~/ 3)]}, Birth: ${DateTime.now().toString().substring(0,10)}";
+      info = "등급: ${table[(malangtype ~/ 3)]}\nBirth: ${DateTime.now().toString().substring(0,10)}";
       imgsource = SLIMETYPE[malangtype]!["gifsource"];
     }
     serverUtils.updateUser(_manager.root);  // 갓챠를 했으면 무조건 돈은 사용되는거임.
@@ -92,16 +95,25 @@ class _Gotchya extends State<Gotchya>{
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Visibility(
+            visible: _visibility,
+            child: Text("${SLIMETYPE[malangtype]!["species"]}",
+              style: const TextStyle(
+                fontSize: 35,
+              ),
+            ),
+          ),
           Image.asset(
               imgsource,
           ),
 
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 20, 0, 10.0),
+            padding: EdgeInsets.fromLTRB(60, 20, 60, 10.0),
             child: Container(
               alignment: Alignment.center,
               child: Text(
                 info,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20,
                 ),
@@ -147,6 +159,7 @@ class _Gotchya extends State<Gotchya>{
 
             children: [
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(10)),
                   onPressed: (){
                     if(btn1 == 'OK!'){  // 갓챠 실행됨
                       Malang newmalang = Malang(
@@ -158,8 +171,10 @@ class _Gotchya extends State<Gotchya>{
                         newmalang.nickname = myController.text;
                       serverUtils.addSlime(newmalang); // 새로 생성된 말랑이 서버에 요청해서 DB에 적기// 유저 업데이트하기
                       Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
+
                     } else if( btn1 == '레벨업하러 가기'){
                       Navigator.pushNamedAndRemoveUntil(context, '/levelup', (r)=>false);
+
                     } else{
                       _manager.root.dia = _manager.root.dia + 3;
                       serverUtils.updateUser(_manager.root);
@@ -175,30 +190,91 @@ class _Gotchya extends State<Gotchya>{
                   },
                   child: Text(btn1)
               ),
+
               Container(width: 10,),
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(10)),
                   onPressed: (){
                     Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
                   },
                   child: Text("돌아갈래요")
               ),
-            ],
-          )
+
+              Container(width: 10,),
+              Visibility(
+                visible: _visibility,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(padding: EdgeInsets.all(10)),
+                    onPressed: (){
+                      Malang newmalang = Malang(
+                          ownerid: _manager.root.id,
+                          type: malangtype,
+                          nickname: "익명의 슬라임"
+                      );  //Birth 는 내부적으로 생성됨.
+                      if(myController.text.isNotEmpty)
+                        newmalang.nickname = myController.text;
+                      serverUtils.addSlime(newmalang);  // slime is added!!!!!
+
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Expanded(
+                            child: AlertDialog(
+                              title: Text('${newmalang.nickname}에 대해 소개해주세요!'),
+                              content: TextField(
+                                controller: myController2,
+                                decoration: InputDecoration(
+                                  labelText: '짧은 소개글을 써 주세요!',
+                                ),
+                              ),
+                              actions: [
+                                FlatButton(
+                                  textColor: Colors.black,
+                                  onPressed: () { // 포스팅 안하고 인벤토리로!!!
+                                    Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
+                                  },
+                                  child: Text('취소하기'),
+                                ),
+                                FlatButton(
+                                  textColor: Colors.black,
+                                  onPressed: () {
+                                    // post feed
+                                    var feed = Feed(ownerid:newmalang.ownerid, type:newmalang.type,
+                                        nickname:newmalang.nickname);
+                                    if(myController2.text.isNotEmpty){
+                                      feed.line = myController2.text;
+                                    }
+                                    serverUtils.addFeed(feed);
+                                    Navigator.pushNamedAndRemoveUntil(context, '/feedboard', (r)=>false);
+                                  },
+                                  child: Text('포스팅'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text("자랑하기")
+                ),
+              ),
+              ],
+            ),
         ],
       ),
-      floatingActionButtonLocation: CustomFabLoc(),
-      floatingActionButton:  Visibility(
-        visible: _visibility,
-        child: FloatingActionButton.extended(
-                heroTag: 'gotcha_FAB1',
-                backgroundColor: Color(0xFFE38BFF),
-                onPressed: (){
-                  Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
-                }, label: Column( children: [Icon(Icons.send), Text('자랑하기')],
-
-        ),
-              ),
-      ),
+      // floatingActionButtonLocation: CustomFabLoc(),
+      // floatingActionButton:  Visibility(
+      //   visible: _visibility2,
+      //   child: FloatingActionButton.extended(
+      //           heroTag: 'gotcha_FAB1',
+      //           backgroundColor: Color(0xFFE38BFF),
+      //           onPressed: (){
+      //             Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
+      //           }, label: Column( children: [Icon(Icons.send), Text('자랑하기')],
+      //
+      //   ),
+      //         ),
+      // ),
     );
   }
 }
@@ -212,6 +288,7 @@ class CustomFabLoc extends FloatingActionButtonLocation {
     );
   }
 }
+
 
 
 

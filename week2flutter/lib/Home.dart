@@ -108,11 +108,16 @@ class _HomeState extends State<Home>{
                   heroTag: 'home_FAB0',
                   child: Icon(Icons.message),
                   onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/feedboard',
+                            (r)=>false
+                    );
                     setState(() {
-                      // serverUtils.addSlime(Malang(ownerid: _manager.root.id, type: 0, nickname: "플레인"));
-                      _manager.root.dia = 100;
-                      _manager.root.level =1;
-                      serverUtils.updateUser(_manager.root);
+                      // // serverUtils.addSlime(Malang(ownerid: _manager.root.id, type: 0, nickname: "플레인"));
+                      // _manager.root.dia = 100;
+                      // _manager.root.level =1;
+                      // serverUtils.updateUser(_manager.root);
                     });
                   },
                 ),

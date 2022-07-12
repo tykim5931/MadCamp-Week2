@@ -8,6 +8,7 @@ import 'package:week2flutter/Market.dart';
 import 'package:week2flutter/SellDelete.dart';
 import 'package:week2flutter/Town.dart';
 import 'package:week2flutter/Inventory.dart';
+import 'FeedBoard.dart';
 import 'Gotchya.dart';
 import 'LevelUp.dart';
 import 'Login.dart';
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
         '/sellDelete': (context) => SellDelete(),
         '/login' : (context) => Login(),
         '/editnickname' : (context) => EditNickname(),
-        '/levelup' : (context) => LevelUp()
+        '/levelup' : (context) => LevelUp(),
+        '/feedboard' : (context) => FeedBoard()
       },
     );
   }

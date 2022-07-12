@@ -36,7 +36,6 @@ class _Town extends State<Town>{
             keyboardType: TextInputType.text,
             onChanged: (text){
               setState(() {
-                print("searching...");
                 future = serverUtils.searchUser(text);
               });
               },

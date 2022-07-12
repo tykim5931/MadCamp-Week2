@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'data/Feed.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
-import 'data/Feed.dart';
 import 'package:http/http.dart' as http;
 
 String _url = "http://192.249.18.162:80";

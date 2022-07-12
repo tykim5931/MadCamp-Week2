@@ -44,10 +44,11 @@ class _Inventory extends State<Inventory>{
             children: [
               ElevatedButton(
                   onPressed: (){
-                    Navigator.pushNamed(
+                    Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/gotchya',
-                      arguments: GotchyaArgument(malangList.length)
+                      arguments: GotchyaArgument(malangList.length),
+                        (r) => false
                     );
                   },
                   child: Text("갓챠!!")

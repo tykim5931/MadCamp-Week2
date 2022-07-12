@@ -65,24 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/apple.gif
-    - assets/fastchick.gif
-    - assets/flower.gif
-    - assets/ourora.gif
-    - assets/plain.gif
-    - assets/puppy.gif
-    - assets/sleepy.gif
-    - assets/spaki.gif
-    - assets/unicorn.gif
-    - assets/vvirus.gif
-    - assets/waterdrop.gif
-    - assets/poor.png
-    - assets/level.png
-    - assets/full.png
-    - assets/gotchya.png
-    - assets/angel.gif
-    - assets/kaist.gif
-    - assets/king.gif
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

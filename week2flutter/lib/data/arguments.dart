@@ -11,3 +11,8 @@ class GotchyaArgument{
   final int malanglength;
   GotchyaArgument(this.malanglength);
 }
+
+class MalangArgument{
+  final Malang malang;
+  MalangArgument(this.malang);
+}
