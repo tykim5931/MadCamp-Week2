@@ -58,6 +58,7 @@ class _HomeState extends State<Home>{
     });
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: Text("${_manager.selected.nickname}의 슬라임 농장"),

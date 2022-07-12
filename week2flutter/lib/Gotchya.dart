@@ -239,7 +239,8 @@ class _Gotchya extends State<Gotchya>{
                                   textColor: Colors.black,
                                   onPressed: () {
                                     // post feed
-                                    var feed = Feed(ownerid:newmalang.ownerid, type:newmalang.type,
+                                    String ownername = _manager.root.nickname as String;
+                                    var feed = Feed(ownerid:ownername, type:newmalang.type,
                                         nickname:newmalang.nickname);
                                     if(myController2.text.isNotEmpty){
                                       feed.line = myController2.text;
