@@ -216,14 +216,15 @@ class _Market extends State<Market>{
                                               var future = serverUtils.requireUser(oldid);  // 판매자 불러오기
                                               future.then((val) {
                                                 var seller = val[0];
-                                                seller.point = seller.point + malang.price; //판매자의 point 증가
-                                                print(seller.point);
+                                                if(malang.ownerid != _manager.root.id) {
+                                                  seller.point = seller.point + malang.price; //판매자의 point 증가
+                                                  print(seller.point);
+                                                  _manager.root.point = _manager.root.point - malang.price; // 돈을 사용
+                                                }
+                                                malang.ownerid = _manager.root.id; // 말랑이의 소유권 이전
                                                 serverUtils.updateUser(seller); // 판매자 정보 업데이트
-
-                                                malang.ownerid = _manager.root.id;  // 말랑이의 소유권 이전
-                                                _manager.root.point = _manager.root.point - malang.price; // 돈을 사용
-                                                malang.price = 0; // 말랑이의 가격 리셋
                                                 serverUtils.updateUser(_manager.root);
+                                                malang.price = 0; // 말랑이의 가격 리셋
                                                 serverUtils.updateSlime(malang);  // 만약 소유권이전시에는 원 소유자에 찾아가서 point더해줄 것!!
                                                 Fluttertoast.showToast(
                                                     msg: "입양 완료! ${_manager.root.point}P 남았어요",
