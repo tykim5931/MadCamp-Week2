@@ -44,6 +44,6 @@ class Feed {
         'createdtime':createdtime,
         'nickname':nickname,
         'line':line,
-        'likes':likes
+        'likes':likes,
       };
 }
