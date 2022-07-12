@@ -59,7 +59,7 @@ class _FeedBoard extends State<FeedBoard> {
                                 //color: Colors.yellow,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: new AssetImage("assets/backboard2.png"),
+                                    image: new AssetImage("assets/backboard3.png"),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
