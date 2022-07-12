@@ -107,13 +107,15 @@ class _Inventory extends State<Inventory>{
                                         child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                             onPressed: (){
-                                              Navigator.pushNamed(
+                                              Navigator.pushNamedAndRemoveUntil(
                                                   context,
                                                   '/sellDelete',
                                                   arguments: ScreenArgument(
                                                       malangList[idx],
                                                       false
-                                                  ));
+                                                  ),
+                                                      (r)=>false
+                                              );
                                             },
                                             child: Text("방출")
                                         ),
@@ -125,13 +127,14 @@ class _Inventory extends State<Inventory>{
                                         child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                             onPressed: (){
-                                              Navigator.pushNamed(
+                                              Navigator.pushNamedAndRemoveUntil(
                                                   context,
                                                   '/sellDelete',
                                                   arguments: ScreenArgument(
                                                       malangList[idx],
                                                       true
-                                                  )
+                                                  ),
+                                                      (r)=>false
                                               );
                                             },
                                             child: Text("경매")
@@ -169,7 +172,7 @@ class _Inventory extends State<Inventory>{
               child: Icon(Icons.arrow_back),
               backgroundColor: Colors.lime,
               onPressed: (){
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
               },
             ),
           ),
@@ -184,7 +187,7 @@ class _Inventory extends State<Inventory>{
               onPressed: (){
                 var _manager = Provider.of<UserManager>(context, listen: false); // 전역변수
                 _manager.selected = _manager.root;
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
               },
             ),
           ),

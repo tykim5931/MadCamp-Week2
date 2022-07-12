@@ -1,7 +1,9 @@
 import 'dart:core';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:week2flutter/Inventory.dart';
 import 'package:week2flutter/data/instances.dart';
@@ -62,16 +64,19 @@ class _Gotchya extends State<Gotchya>{
     var gotchyaPrice = 3; // dia
     String imgsource = "";
     String info = "";
+    String btn1 = "OK!";
     var _visibility = true;
 
     if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){ // 인벤토리 가득참
-      info = "인벤토리가 가득 찼어요! \n 레벨업하거나 슬라임을 내보내고 다시 뽑으세요!";
+      info = "인벤토리가 가득 찼어요! \n레벨업하거나 슬라임을 내보내고 다시 뽑으세요!";
       imgsource = "assets/full.png";
+      btn1 = "레벨업하러 가기";
       _visibility = false;
     }
     else if (_manager.root.dia < gotchyaPrice){  // 돈 모자람
-      info = "안타깝네요! ${gotchyaPrice-_manager.root.dia} \u{1F48E} 더 모아오세요"; //gem stone
+      info = "안타깝네요! ${gotchyaPrice-_manager.root.dia}\u{1F48E} 더 모아오세요"; //gem stone
       imgsource = "assets/poor.png";
+      btn1 = "광고보고 3\u{1F48E}";
       _visibility = false;
     }
     else{ // 갓챠 실행함
@@ -91,24 +96,28 @@ class _Gotchya extends State<Gotchya>{
               imgsource,
           ),
 
-          Container(
-            color: Colors.lightGreenAccent,
-            alignment: Alignment.center,
-            child: Text(
-              info,
-              style: const TextStyle(
-                fontSize: 20,
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 10.0),
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                info,
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
 
-          Container(
-            color: Colors.lightGreenAccent,
-            alignment: Alignment.center,
-            child: Text(
-              "남은 \u{1F48E}: ${_manager.root.dia}",
-              style: const TextStyle(
-                fontSize: 20,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10.0),
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                "남은 \u{1F48E}: ${_manager.root.dia}",
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
@@ -117,9 +126,9 @@ class _Gotchya extends State<Gotchya>{
           Visibility(
             visible: _visibility,
             child: Container(
-                height: 40,
+                height: 35,
+                width: 250,
                 alignment: Alignment.center,
-                color: Colors.yellow,
                 child: TextField(
                   controller: myController,
                   decoration: InputDecoration(
@@ -129,39 +138,77 @@ class _Gotchya extends State<Gotchya>{
                 )
             ),
           ),
-
+          Container(
+            height: 10,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              Visibility(
-                visible: _visibility,
-                child: ElevatedButton(
-                    onPressed: (){
+              ElevatedButton(
+                  onPressed: (){
+                    if(btn1 == 'OK!'){  // 갓챠 실행됨
                       Malang newmalang = Malang(
-                        ownerid: _manager.root.id,
-                        type: malangtype,
-                        nickname: "익명의 슬라임"
+                          ownerid: _manager.root.id,
+                          type: malangtype,
+                          nickname: "익명의 슬라임"
                       );  //Birth 는 내부적으로 생성됨.
                       if(myController.text.isNotEmpty)
                         newmalang.nickname = myController.text;
                       serverUtils.addSlime(newmalang); // 새로 생성된 말랑이 서버에 요청해서 DB에 적기// 유저 업데이트하기
-                      Navigator.pushNamed(context, '/inventory');
-                    },
-                    child: Text("OK!")
-                ),
+                      Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
+                    } else if( btn1 == '레벨업하러 가기'){
+                      Navigator.pushNamedAndRemoveUntil(context, '/levelup', (r)=>false);
+                    } else{
+                      _manager.root.dia = _manager.root.dia + 3;
+                      serverUtils.updateUser(_manager.root);
+
+                      sleep(Duration(seconds:1));
+                      Fluttertoast.showToast(
+                          msg: "광고 보기를 완료하여 3\u{1F48E}를 얻었습니다.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP_RIGHT
+                      );
+                      Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
+                    }
+                  },
+                  child: Text(btn1)
               ),
+              Container(width: 10,),
               ElevatedButton(
                   onPressed: (){
-                    Navigator.pushNamed(context, '/inventory');
+                    Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
                   },
                   child: Text("돌아갈래요")
               ),
             ],
           )
         ],
-      )
+      ),
+      floatingActionButtonLocation: CustomFabLoc(),
+      floatingActionButton:  Visibility(
+        visible: _visibility,
+        child: FloatingActionButton.extended(
+                heroTag: 'gotcha_FAB1',
+                backgroundColor: Color(0xFFE38BFF),
+                onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
+                }, label: Column( children: [Icon(Icons.send), Text('자랑하기')],
+
+        ),
+              ),
+      ),
+    );
+  }
+}
+
+class CustomFabLoc extends FloatingActionButtonLocation {
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    return Offset(
+      scaffoldGeometry.scaffoldSize.width * .63, ///customize here
+      scaffoldGeometry.scaffoldSize.height * .25,
     );
   }
 }

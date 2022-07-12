@@ -78,7 +78,7 @@ class _Login extends State<Login>{
                   future.then((val) {
                     _manager.root = val[0];
                     _manager.selected = _manager.root;
-                    Navigator.pushNamed(context, '/');
+                    Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
                   }).catchError((error) {
                     print('error: $error');
                   });

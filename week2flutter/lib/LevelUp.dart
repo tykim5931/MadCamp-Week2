@@ -73,7 +73,7 @@ class _LevelUp extends State<LevelUp>{
                                   serverUtils.updateUser(_manager.root);
                                   setState(() {});
                                   _manager.selected = _manager.root;
-                                  Navigator.pushNamed(context, '/');
+                                  Navigator.pushNamedAndRemoveUntil(context, '/', (r)=>false);
                                   Fluttertoast.showToast(
                                       msg: "렙업 완료! ${_manager.root.point}P 남았어요",
                                       // backgroundColor: Colors.white,
@@ -95,7 +95,7 @@ class _LevelUp extends State<LevelUp>{
                         ElevatedButton(
                             onPressed: () async {
                               _manager.selected = _manager.root;
-                              Navigator.pushNamed(context, '/');
+                              Navigator.pushNamedAndRemoveUntil(context, '/',(r)=>false);
                             },
                             child: const Text('돌아가기')),
                       ],

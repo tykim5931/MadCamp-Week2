@@ -62,7 +62,7 @@ class MyDrawer extends StatelessWidget{
                 ),
               ),
               onTap:(){
-                Navigator.pushNamed(context, '/editnickname');
+                Navigator.pushNamedAndRemoveUntil(context, '/editnickname', (r)=>false);
               },
             ),
             ListTile(
@@ -74,7 +74,7 @@ class MyDrawer extends StatelessWidget{
                 ),
               ),
               onTap:(){
-                Navigator.pushNamed(context, '/levelup');
+                Navigator.pushNamedAndRemoveUntil(context, '/levelup', (r)=>false);
               },
             ),
             ListTile(
@@ -89,7 +89,7 @@ class MyDrawer extends StatelessWidget{
               onTap:() async {
                 await viewModel.logout();
                 // setState((){});
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamedAndRemoveUntil(context, '/login', (r)=>false);
               },
             ),
           ],

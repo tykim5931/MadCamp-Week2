@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _SellDelete extends State<SellDelete>{
     var table = ['C','B','A','S'];
 
     String descritpion = "정말로 버리시겠습니까?";
-    String info = "Name : ${_malang.nickname.toString()}\n등급  : ${table[_malang.type ~/ 3]} \nBirth: ${_malang.createdtime.toString().substring(0, 10)}";
+    String info = "Name : ${_malang.nickname.toString()}\n등급 : ${table[_malang.type ~/ 3]} \nBirth: ${_malang.createdtime.toString().substring(0, 10)}";
     var _visibility = true;
     String btnText = "";
 
@@ -111,19 +112,30 @@ class _SellDelete extends State<SellDelete>{
                         // 에러 안 나게 숫자인지 try catch 문 만들 것.
                         try{
                           _malang.price = int.parse(myController.text);
+                          Fluttertoast.showToast(
+                              msg: "슬라임을 경매에 올리는 중입니다... ",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER
+                          );
                         }catch (e){
                           Fluttertoast.showToast(
                               msg: "0보다 큰 숫자를 입력해 주세요",
                             toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.TOP_RIGHT
+                            gravity: ToastGravity.CENTER
                           );
                         }
                         serverUtils.updateSlime(_malang);
                       }
                       else{ // 방출
+                        Fluttertoast.showToast(
+                            msg: "슬라임을 방생하는 중입니다...",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                        );
                         serverUtils.deleteSlime(_malang.id);
                       }
-                      Navigator.pushNamed(context, '/inventory');
+                      sleep(Duration(seconds:1));
+                      Navigator.pushNamedAndRemoveUntil(context, '/inventory',(r)=>false);
                     },
                     child: Text(btnText)
                 ),
@@ -132,7 +144,7 @@ class _SellDelete extends State<SellDelete>{
                 ),
                 ElevatedButton(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/inventory');
+                      Navigator.pushNamedAndRemoveUntil(context, '/inventory',(r)=>false);
                     },
                     child: Text("뒤로가기")
                 ),

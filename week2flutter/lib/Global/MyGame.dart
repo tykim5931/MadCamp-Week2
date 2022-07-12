@@ -157,7 +157,6 @@ class MyGame extends FlameGame with HasTappables{
     }
 
 
-
     //////////////// Point Component ///////////////
     pointText = TextComponent(
         text: "\u{1F4B0} ${_manager.root.point.toString()}",
@@ -168,6 +167,8 @@ class MyGame extends FlameGame with HasTappables{
               fontFamily: 'pixelfonts',
             )
         ))
+
+
       ..anchor = Anchor.topLeft
       ..x = 30.0
       ..y = 30.0;

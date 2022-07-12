@@ -96,7 +96,7 @@ class _HomeState extends State<Home>{
             },
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -110,7 +110,8 @@ class _HomeState extends State<Home>{
                   onPressed: () {
                     setState(() {
                       // serverUtils.addSlime(Malang(ownerid: _manager.root.id, type: 0, nickname: "플레인"));
-                      _manager.root.currentdia = 0;
+                      _manager.root.dia = 100;
+                      _manager.root.level =1;
                       serverUtils.updateUser(_manager.root);
                     });
                   },
@@ -119,10 +120,11 @@ class _HomeState extends State<Home>{
                   heroTag: 'home_FAB1',
                   child: Icon(Icons.shopping_cart),
                   onPressed: (){
-                    Navigator.pushNamed(
+                    Navigator.pushNamedAndRemoveUntil(
                       context,
                       '/market',
-                      arguments: GotchyaArgument(malangList.length)
+                      arguments: GotchyaArgument(malangList.length),
+                            (r)=>false
                   );
                   },
                 ),
@@ -130,14 +132,14 @@ class _HomeState extends State<Home>{
                   heroTag: 'home_FAB2',
                   child: Icon(Icons.inventory),
                   onPressed: (){
-                    Navigator.pushNamed(context, '/inventory');
+                    Navigator.pushNamedAndRemoveUntil(context, '/inventory', (r)=>false);
                   },
                 ),
                 FloatingActionButton(
                   heroTag: 'home_FAB3',
                   child: Icon(Icons.group),
                   onPressed: (){
-                    Navigator.pushNamed(context, '/town');
+                    Navigator.pushNamedAndRemoveUntil(context, '/town', (r)=>false);
                   },
                 ),
               ],

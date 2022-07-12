@@ -120,7 +120,7 @@ class _Town extends State<Town>{
                                           onPressed: (){
                                             var _manager = Provider.of<UserManager>(context, listen: false); // 전역변수
                                             _manager.selected = userList.elementAt(idx);
-                                            Navigator.pushNamed(context, '/');
+                                            Navigator.pushNamedAndRemoveUntil(context, '/', (r)=>false);
                                           },
                                           child: const Text(
                                             "방문하기",
@@ -163,7 +163,7 @@ class _Town extends State<Town>{
               child: Icon(Icons.arrow_back),
               backgroundColor: Colors.lime,
               onPressed: (){
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamedAndRemoveUntil(context, '/', (r)=>false);
               },
             ),
           ),
@@ -177,7 +177,7 @@ class _Town extends State<Town>{
               onPressed: (){
                 var _manager = Provider.of<UserManager>(context, listen: false); // 전역변수
                 _manager.selected = _manager.root;
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamedAndRemoveUntil(context, '/', (r)=>false);
               },
             ),
           ),
