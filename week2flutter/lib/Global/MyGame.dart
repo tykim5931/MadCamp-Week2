@@ -252,14 +252,23 @@ class MyGame extends FlameGame with HasTappables{
       }
 
       if(slime.tapped==0){ // 탭되지 않았을 때
+        if(slime.type == 9){
+          slime.size = Vector2(70, 70);
+        }
         slime.heart.sprite = transspr; // 말풍선 투명
       }
       else if(slime.tapped == 1){
+        if(slime.type == 9){
+          slime.size = Vector2(120, 120);
+        }
         slime.heart.sprite = heartspr; // 하트 띄워지고 가만히 서있게
         slime.heart.size = Vector2(30, 30);
         slime.heart.position = Vector2(slime.x+65, slime.y);
       }
       else{
+        if(slime.type == 9){
+          slime.size = Vector2(180, 180);
+        }
         slime.heart.sprite = upsetspr; // 하트 띄워지고 가만히 서있게
         slime.heart.size = Vector2(30, 30);
         slime.heart.position = Vector2(slime.x+65, slime.y);

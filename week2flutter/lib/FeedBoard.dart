@@ -56,7 +56,13 @@ class _FeedBoard extends State<FeedBoard> {
                             itemBuilder: (BuildContext context, int idx) {
                               // item의 반복문 항목 형성
                               return Container(
-                                color: Colors.yellow,
+                                //color: Colors.yellow,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: new AssetImage("assets/backboard2.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                                 margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(5),
                                 child: Column(
