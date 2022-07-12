@@ -68,6 +68,7 @@ https://domdom.tistory.com/entry/flutter-%ED%94%8C%EB%9F%AC%ED%84%B0-%EC%B9%B4%E
 
 
 이웃 탭에서는 이웃들 페이지를 방문하여 구경할 수 있다. 이웃들 탭을 방문하여 다이아몬드를 수집하고, 이웃들의 농장을 구경할 수 있다. 레벨에 따라 서로 다른 스킨을 가지고 있으며, 이를 관찰할 수 있다.
+
 <img src="https://i.imgur.com/x4QqGRE.jpg" width="200" height="400">
 
 ### 개선사항
