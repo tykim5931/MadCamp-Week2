@@ -165,6 +165,18 @@ void addFeed(Feed feed) async { // 피드에 추가
   print(_res.body);
 }
 
+void updateFeed(Feed feed) async { // 피드에 추가
+  http.Response _res =
+  await http.post(
+      Uri.parse("$_url/feedupdate"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: json.encode(feed.toJson())
+  );
+  print(_res.body);
+}
+
 Future<List<Feed>> requireFeedList() async { // 유저 리스트 요청
   http.Response _res =
   await http.get(

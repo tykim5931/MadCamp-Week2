@@ -64,7 +64,10 @@ class _Market extends State<Market>{
                   Expanded(
                     flex:1,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.purple,
+                          padding: EdgeInsets.all(0),
+                      ),
                         onPressed: (){
                           future = serverUtils.sortedSlimes("type", "desc");
                           setState((){});
@@ -88,7 +91,8 @@ class _Market extends State<Market>{
                   Expanded(
                     flex:1,
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.purple,padding: EdgeInsets.all(0)),
                       onPressed: (){
                         future = serverUtils.sortedSlimes("price", "desc");
                         setState((){});
@@ -118,20 +122,22 @@ class _Market extends State<Market>{
                 if (snapshot.hasData) {
                   malangList = snapshot.data!;
                   return Expanded(
-                    child: 
-                    SingleChildScrollView(
-                      child: ListView.builder(
-                          itemCount: malangList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int idx){
-                            // item의 반복문 항목 형성
-                            return Row(
+                    child:
+                    ListView.builder(
+                        itemCount: malangList.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int idx){
+                          // item의 반복문 항목 형성
+                          return Container(
+                            margin: EdgeInsets.all(7),
+                            color: createMaterialColor(Color(0xFFF5FFDE)),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
-
                               children: [
-                                Expanded(flex: 1,child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                Expanded(flex: 1,
+                                  child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(10,0,10,0),
                                   child: Image.asset(
                                     SLIMETYPE[malangList.elementAt(idx).type]!["gifsource"],
                                     width: 100,
@@ -142,6 +148,7 @@ class _Market extends State<Market>{
                                 Expanded(
                                   flex: 2,
                                   child:Container(
+                                    padding:  EdgeInsets.fromLTRB(0,0,0,0),
                                     alignment: Alignment.centerLeft,
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -153,7 +160,7 @@ class _Market extends State<Market>{
                                           child: Text(
                                             "Name : ${malangList.elementAt(idx).nickname}",
                                             style: const TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 16,
                                             ),
                                           ),
                                         ),
@@ -251,9 +258,9 @@ class _Market extends State<Market>{
                                   ),
                                 ),
                               ],
-                            );
-                          }
-                      ),
+                            ),
+                          );
+                        }
                     ),
                   );
                 } else if (snapshot.hasData == false) {
@@ -302,4 +309,24 @@ class _Market extends State<Market>{
       ),
     );
   }
+}
+
+MaterialColor createMaterialColor(Color color) {
+  List strengths = <double>[.05];
+  Map<int, Color> swatch = {};
+  final int r = color.red, g = color.green, b = color.blue;
+
+  for (int i = 1; i < 10; i++) {
+    strengths.add(0.1 * i);
+  }
+  strengths.forEach((strength) {
+    final double ds = 0.5 - strength;
+    swatch[(strength * 1000).round()] = Color.fromRGBO(
+      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+      1,
+    );
+  });
+  return MaterialColor(color.value, swatch);
 }

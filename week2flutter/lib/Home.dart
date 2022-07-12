@@ -61,7 +61,7 @@ class _HomeState extends State<Home>{
       resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
-          title: Text("${_manager.selected.nickname}의 슬라임 농장"),
+          title: Text("[${_manager.selected.nickname}]의 슬라임 농장"),
         ),
       drawer: MyDrawer(),
       body:Center(
@@ -165,3 +165,6 @@ int calcPoint(List<Malang> malanglist){
   }
   return point;
 }
+
+
+

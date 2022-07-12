@@ -68,7 +68,6 @@ class _Gotchya extends State<Gotchya>{
     String info = "";
     String btn1 = "OK!";
     var _visibility = true;
-    var _visibility2 = false;
 
     if(currLen >= (USERLEVEL[_manager.root.level]!["inventory"] as num)){ // 인벤토리 가득참
       info = "인벤토리가 가득 찼어요! \n레벨업하거나 슬라임을\n내보내고 다시 뽑으세요!";
@@ -97,7 +96,7 @@ class _Gotchya extends State<Gotchya>{
         children: [
           Visibility(
             visible: _visibility,
-            child: Text("${SLIMETYPE[malangtype]!["species"]}",
+            child: Text("${SLIMETYPE[malangtype]!["species"]} 획득!",
               style: const TextStyle(
                 fontSize: 35,
               ),
@@ -239,8 +238,7 @@ class _Gotchya extends State<Gotchya>{
                                   textColor: Colors.black,
                                   onPressed: () {
                                     // post feed
-                                    String ownername = _manager.root.nickname as String;
-                                    var feed = Feed(ownerid:ownername, type:newmalang.type,
+                                    var feed = Feed(ownerid: _manager.root.id, type:newmalang.type,
                                         nickname:newmalang.nickname);
                                     if(myController2.text.isNotEmpty){
                                       feed.line = myController2.text;
