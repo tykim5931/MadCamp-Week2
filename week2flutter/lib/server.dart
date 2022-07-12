@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'data/Malang.dart';
 import 'data/User.dart';
+import 'data/Feed.dart';
 import 'package:http/http.dart' as http;
 
 String _url = "http://192.249.18.162:80";
@@ -150,4 +151,29 @@ void deleteSlime(int id) async { // 슬라임 삭제 요청
       },
       body: json.encode({"id" : id})
   );
+}
+
+void addFeed(Feed feed) async { // 피드에 추가
+  http.Response _res =
+  await http.post(
+      Uri.parse("$_url/feedadd"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: json.encode(feed.toJson())
+  );
+  print(_res.body);
+}
+
+Future<List<Feed>> requireFeedList() async { // 유저 리스트 요청
+  http.Response _res =
+  await http.get(
+      Uri.parse("$_url/getfeed"),
+      headers: {
+        "Content-Type": "application/json",
+      }
+  );
+  // print(_res.body);
+  var parsed = json.decode(_res.body).cast<Map<String, dynamic>>();
+  return parsed.map<Feed>((json) => Feed.fromJson(json)).toList();  //List<User>
 }
